@@ -1,5 +1,6 @@
 - 👋 Hi, I’m Elias
-- 👀 I’m a Graduate Researcher and Teaching Assistant at Simon Fraser University, BC, Canada.
+- 👀 I’m a Graduate Researcher and former Teaching Assistant at Simon Fraser University, BC, Canada.
+- I work part-time as a Energy Planner Consultant to a Provincial Utility.
 - I work at [DeltaE+ lab of SFU](https://www.sfu.ca/see/research/delta-e.html)
 - 🌱 I’m currently learning energy system modelling especially the open sourced ones.
 - I'm working on this project [Building pathways to a future powered by low-carbon electricity](https://pics.uvic.ca/projects/building-pathways-future-powered-low-carbon-electricity) with [PICS](https://pics.uvic.ca/about)
