@@ -10,6 +10,11 @@ eliasinul/eliasinul is a ✨ special ✨ repository because its `README.md` (thi
 You can click the Preview link to take a look at your changes.
 --->
 
+---
+__So far the following are my significant contributions in model land! <br>__
+> Click the icons to know more about these open-source projects<br>
 
-So far [RESource](https://deltae.github.io/RESource/index.html#) is the one of the few projects I am proud about [<img width="200" alt="image" src="https://github.com/user-attachments/assets/6762d3f2-283a-4fb6-869a-13e2a94ad8da" />](https://deltae.github.io/RESource/index.html#)
- 
+[<img height="130" alt="image" src="https://github.com/user-attachments/assets/6762d3f2-283a-4fb6-869a-13e2a94ad8da" />](https://deltae.github.io/RESource/index.html#)
+[<img height="85" alt="image" src="https://github.com/user-attachments/assets/fcb7af24-cc07-418c-a38f-7bac23debcab" />](https://deltae.github.io/BC_Combined_Modelling/)
+[<img height="100" alt="image" src="https://github.com/user-attachments/assets/c72e97dc-30c4-4719-9e31-4895f8555c0c" />](https://deltae.github.io/storage-in-OSeMOSYS/)
+[<img height="120" alt="Fleet_BC_logo_202508" src="https://github.com/user-attachments/assets/b12700b6-738b-4b4f-b971-7d669ae621ae" />](https://deltae.github.io/Fleet_Electrification/)
