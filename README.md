@@ -1,5 +1,5 @@
 - 👋 Hi, I’m Elias
-- 👀 I’m an Energy Modelling Enthusiasts and Docotoral Researcher  [DeltaE+ lab of SFU](https://www.sfu.ca/see/research/delta-e.html) and former Teaching Assistant at Simon Fraser University, BC, Canada.
+- 👀 I’m an Energy Modelling Enthusiast and Docotoral Researcher  [DeltaE+ lab of SFU](https://www.sfu.ca/see/research/delta-e.html) and former Teaching Assistant at Simon Fraser University, BC, Canada.
 - I work as a Energy Planner (Consultant) to a Provincial Utility [BC Hydro](https://www.bchydro.com/index.html)
 - 🌱 I’m currently learning energy system modelling especially the open sourced ones and trying to contribute in the paradigm.
 - 📫 That's how you can reach me >> __elias_islam@sfu.ca__  or __eliasinul@gmail.com__
