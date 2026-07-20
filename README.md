@@ -1,13 +1,11 @@
 - 👋 Hi, I’m Elias
-- 👀 I’m an Energy Modelling Enthusiast and Docotoral Researcher  [DeltaE+ lab of SFU](https://www.sfu.ca/see/research/delta-e.html) and former Teaching Assistant at Simon Fraser University, BC, Canada.
-- I work as a Energy Planner (Consultant) to a Provincial Utility [BC Hydro](https://www.bchydro.com/index.html)
-- 🌱 I’m currently learning energy system modelling especially the open sourced ones and trying to contribute in the paradigm.
+- 🔭 I am a Doctoral Researcher at the [ΔE+ Research Lab](https://www.sfu.ca/see/research/delta-e.html) at Simon Fraser University (SFU), specializing in sustainable energy engineering and energy planning.
+- 💼 Professionally, I serve as an Energy Planner (Consultant) for [BC Hydro](https://www.bchydro.com/index.html). I bring more than a decade of industry experience in power utility generation planning and multi-country modelling with United Nations (UN).
+- 🎓 I am a trained Electrical Engineer, professionally licensed in Bangladesh and currently pursuing licensure in British Columbia, Canada.
+- 🌱 My current work focuses on advancing open-source energy system optimization models (e.g., PyPSA, OSeMOSYS, CLEWs) to evaluate robust decarbonization pathways.
+- 👀 I’m an Energy Modelling Enthusiast and Docotoral Researcher at [DeltaE+ lab of SFU](https://www.sfu.ca/see/research/delta-e.html) of Simon Fraser University, BC, Canada.
+- I also love to share my learnings on OSeMOSYS/CLEWs/PyPSA frameworks and also about the other tools I contributed.
 - 📫 That's how you can reach me >> __elias_islam@sfu.ca__  or __eliasinul@gmail.com__
-
-<!---
-eliasinul/eliasinul is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
 
 ---
 __So far the following are my contributions in model land! <br>__
