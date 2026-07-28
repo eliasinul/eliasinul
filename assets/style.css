@@ -78,3 +78,93 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}body{overflow-x:hidden}main{
 
 /* Compact university marks in education cards */
 .education p{display:flex;align-items:center;gap:8px}.edu-icons{display:inline-flex;align-items:center;flex:0 0 auto}.edu-icons img{width:22px;height:22px;object-fit:contain;border-radius:4px;background:rgba(255,255,255,.78);border:1px solid rgba(11,37,40,.08);padding:2px}.edu-icons.multi img+img{margin-left:-4px}.edu-icons.multi img{box-shadow:0 0 0 2px var(--soft)}
+
+/* Cellphone experience — isolated overrides that preserve the desktop layout */
+@media(max-width:600px){
+  html{scroll-padding-top:72px;-webkit-text-size-adjust:100%}
+  body{min-width:0}
+  .site-header{min-height:66px;height:auto;gap:8px;padding:9px max(12px,env(safe-area-inset-right)) 9px max(12px,env(safe-area-inset-left))}
+  .brand{flex:0 0 104px;min-width:0}
+  .brand strong{max-width:104px;font-size:10px;line-height:1.15}
+  .brand small,.email-link{display:none}
+  .site-header nav{flex:1;min-width:0;max-width:none;justify-content:flex-start;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .site-header nav::-webkit-scrollbar{display:none}
+  .site-header nav a{flex:0 0 auto;min-height:42px;padding:0 10px;display:inline-flex;align-items:center;justify-content:center;scroll-snap-align:start;font-size:11px;white-space:nowrap}
+  .tab{min-height:calc(100svh - 66px);padding:38px max(16px,env(safe-area-inset-right)) calc(62px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left));background-position:58% top}
+  .section-heading{gap:16px;margin-bottom:38px}
+  .hero{gap:42px}
+  .hero h1,.section-heading h1{font-size:clamp(38px,12vw,48px);line-height:1;letter-spacing:-.05em;margin:14px 0 20px;overflow-wrap:anywhere}
+  .lead,.heading-copy{font-size:15px;line-height:1.6}
+  .actions{flex-wrap:wrap;margin-top:24px}
+  .button{min-height:44px;padding:13px 17px}
+  .portrait-card{width:min(240px,86vw);max-width:240px}
+  .portrait-card>img{width:190px;height:190px}
+  .portrait-card>.code-orbit{width:232px;height:232px;inset:-20px 4px auto;animation-duration:60s}
+  .code-orbit i{top:102px}
+  .portrait-card>.current-role{width:min(260px,88vw);margin-top:27px}
+  .stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .stats div{min-width:0;padding:18px 8px;border-right:1px solid var(--line);border-bottom:0}
+  .stats div:nth-child(2){border-right:1px solid var(--line)}
+  .stats strong{font-size:28px}
+  .stats span{display:block;font-size:10px;line-height:1.3;overflow-wrap:anywhere}
+  .focus{padding:60px 0 0}
+  .focus h2{font-size:clamp(28px,9vw,38px)}
+  .tags span,.training-note span{font-size:10px}
+  .cv-layout{gap:50px}
+  .cv-layout aside{text-align:center}
+  .avatar{width:94px;height:94px}
+  .links{justify-content:center}
+  .timeline article{padding:20px 0}
+  .timeline h4{align-items:flex-start;line-height:1.45}
+  .education-label{margin-top:45px}
+  .education article{padding:18px}
+  .projects>a{min-height:220px;padding:20px}
+  .projects img{height:58px;margin-bottom:14px}
+  .projects h2{font-size:25px}
+  .contributions{padding:26px 0}
+  .publication-item{grid-template-columns:32px minmax(0,1fr);gap:10px;padding:22px 0}
+  .publication-number{font-size:21px}
+  .publication-item p{font-size:15px;line-height:1.55}
+  .publication-item a{display:inline;overflow-wrap:anywhere;line-height:1.7}
+  .now-models{margin-bottom:24px;padding:18px}
+  .now-models-heading h2{font-size:22px}
+  .now-model-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+  .now-model-grid>a{min-height:68px;padding:9px;gap:8px}
+  .now-model-grid img{width:36px;height:36px;flex-basis:36px}
+  .now-model-grid strong{font-size:13px}
+  .now-model-grid small{font-size:7px}
+  .now-paper{grid-template-columns:50px minmax(0,1fr);padding:18px;gap:14px;margin-bottom:24px}
+  .journal-icon{width:50px;height:66px}
+  .now-paper h2{font-size:24px;overflow-wrap:anywhere}
+  .paper-summary{font-size:13px}
+  .paper-summary span+span{margin-top:5px}
+  .now-visual{min-height:260px}
+  .now-content{padding:22px}
+  .now-content h2{font-size:29px;overflow-wrap:anywhere}
+  .now-meta{margin-bottom:22px;flex-wrap:wrap}
+  .now-link{min-height:44px}
+  .credentials{margin-top:55px;padding:24px 18px}
+  .credentials-heading{gap:10px;margin-bottom:22px}
+  .badge-links>a{min-height:68px;padding:13px}
+  footer{padding:26px max(16px,env(safe-area-inset-right)) calc(26px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+}
+
+@media(max-width:360px){
+  .brand{flex-basis:88px}.brand strong{max-width:88px;font-size:9px}
+  .site-header nav a{padding:0 8px;font-size:10px}
+  .stats{grid-template-columns:1fr}
+  .stats div,.stats div:nth-child(2){padding:14px 10px;border-right:0;border-bottom:1px solid var(--line)}
+  .stats div:last-child{border-bottom:0}
+  .now-model-grid{grid-template-columns:1fr}
+  .now-paper{grid-template-columns:42px minmax(0,1fr);padding:16px;gap:12px}
+  .journal-icon{width:42px;height:56px}
+}
+
+@media(max-width:600px) and (hover:none){
+  .portrait-card:hover>img,.projects>a:hover img,.now-model-grid>a:hover,.now-card:hover,.badge-links>a:hover,.publication-item:hover,.now-link:hover{transform:none}
+  .projects>a:hover{background:var(--paper);color:var(--ink)}
+  .projects>a:hover p{color:#60716f}.projects>a:hover small,.projects>a:hover span{color:var(--teal)}
+}
+
+/* Landing GitHub profile action */
+.github-button{display:inline-flex;align-items:center;justify-content:center;gap:8px}.github-button img{width:17px;height:17px;object-fit:contain}
