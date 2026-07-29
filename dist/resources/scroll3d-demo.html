@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scroll-driven 3D — Grid Assembly (SAMPLE, not on live site)</title>
+<style>
+  :root{--ink:#0b2528;--teal:#126568;--paper:#f6f3ea;--lime:#d9ff77}
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif}
+  /* The 3D canvas is fixed; the page scrolls behind it and drives the animation */
+  #stage{position:fixed;inset:0;z-index:0}
+  .scroller{position:relative;z-index:1}
+  .panel{min-height:100vh;display:flex;align-items:center;padding:0 8vw;pointer-events:none}
+  .panel:nth-child(even){justify-content:flex-end}
+  .card{pointer-events:auto;max-width:440px;background:rgba(246,243,234,.82);backdrop-filter:blur(8px);
+        border:1px solid rgba(18,101,104,.18);padding:30px 32px;box-shadow:0 20px 55px rgba(11,37,40,.14)}
+  .eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal);font-weight:bold}
+  h2{font:400 clamp(28px,4vw,46px)/1.1 Georgia,serif;margin:14px 0 14px}
+  h2 em{color:var(--teal)}
+  p{font-size:15px;line-height:1.65;color:#425856}
+  .tag{display:inline-block;margin-top:14px;padding:6px 11px;border:1px solid rgba(18,101,104,.25);
+       border-radius:20px;font-size:11px;color:var(--teal)}
+  .hint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:2;font-size:12px;
+        letter-spacing:.12em;text-transform:uppercase;color:var(--teal);opacity:.75;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{50%{transform:translate(-50%,6px)}}
+  .flag{position:fixed;top:14px;left:14px;z-index:2;background:var(--ink);color:var(--lime);
+        font-size:11px;letter-spacing:.08em;padding:7px 12px;border-radius:4px}
+</style>
+</head>
+<body>
+  <div class="flag">SAMPLE · scroll-driven concept · not on the live site</div>
+  <div id="stage"></div>
+
+  <div class="scroller">
+    <section class="panel"><div class="card">
+      <p class="eyebrow">Energy systems · scene 01</p>
+      <h2>A grid that <em>builds itself</em> as you read.</h2>
+      <p>Buses and transmission corridors drift in space. This is the idle state — a calm, slowly rotating network that signals "systems modelling" without demanding attention.</p>
+      <span class="tag">Nodes = buses · edges = lines</span>
+    </div></section>
+
+    <section class="panel"><div class="card">
+      <p class="eyebrow">Energy systems · scene 02</p>
+      <h2>Scroll, and <em>power flows.</em></h2>
+      <p>As the reader scrolls, the camera pushes in and pulses of energy travel along each transmission line — the same dispatch intuition your OSeMOSYS / PyPSA results describe, rendered as motion instead of a chart.</p>
+      <span class="tag">Scroll drives flow + camera</span>
+    </div></section>
+
+    <section class="panel"><div class="card">
+      <p class="eyebrow">Energy systems · scene 03</p>
+      <h2>Capacity <em>expands</em> in front of you.</h2>
+      <p>Near the end of the scroll, generation nodes rise like a capacity-expansion bar chart in 3D — a literal build-out of the low-carbon future your models plan for. Everything is one continuous, scroll-linked timeline.</p>
+      <span class="tag">One value (0→1) drives it all</span>
+    </div></section>
+  </div>
+
+  <div class="hint">scroll ↓</div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+  // ---- Minimal, dependency-free scroll-driven 3D sketch -----------------------
+  // Core idea: compute ONE scroll progress value p ∈ [0,1] and let it drive
+  // camera position, energy-flow pulses, and node growth. Everything is a
+  // function of p, so the motion is perfectly reversible and frame-rate safe.
+
+  const stage = document.getElementById('stage');
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.FogExp2(0xf6f3ea, 0.035);
+
+  const camera = new THREE.PerspectiveCamera(52, innerWidth/innerHeight, 0.1, 100);
+  const renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(innerWidth, innerHeight);
+  stage.appendChild(renderer.domElement);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.9));
+  const key = new THREE.DirectionalLight(0xffffff, 0.7); key.position.set(4,6,5); scene.add(key);
+
+  const INK=0x0b2528, TEAL=0x126568, LIME=0xd9ff77;
+
+  // --- Build a small synthetic transmission network (buses + lines) ----------
+  const group = new THREE.Group(); scene.add(group);
+  const rand=(a,b)=>a+Math.random()*(b-a);
+  const buses=[];
+  for(let i=0;i<14;i++){
+    const pos=new THREE.Vector3(rand(-5,5),rand(-2.6,2.6),rand(-4,4));
+    const mat=new THREE.MeshStandardMaterial({color:TEAL,emissive:TEAL,emissiveIntensity:0.15,roughness:0.4});
+    const mesh=new THREE.Mesh(new THREE.SphereGeometry(0.22,24,24),mat);
+    mesh.position.copy(pos);
+    mesh.userData.base=0.22;
+    group.add(mesh);
+    buses.push(mesh);
+  }
+  // connect each bus to its 2 nearest neighbours -> edges
+  const edges=[];
+  buses.forEach((b,i)=>{
+    const d=buses.map((o,j)=>({j,dist:b.position.distanceTo(o.position)}))
+                 .filter(o=>o.j!==i).sort((a,b)=>a.dist-b.dist).slice(0,2);
+    d.forEach(({j})=>{ if(!edges.some(e=>e.a===j&&e.b===i)) edges.push({a:i,b:j}); });
+  });
+  // static line geometry
+  edges.forEach(e=>{
+    const g=new THREE.BufferGeometry().setFromPoints([buses[e.a].position,buses[e.b].position]);
+    const l=new THREE.Line(g,new THREE.LineBasicMaterial({color:INK,transparent:true,opacity:0.22}));
+    group.add(l);
+  });
+  // energy pulses: a small glowing sphere that rides along each edge
+  const pulses=edges.map(e=>{
+    const m=new THREE.Mesh(new THREE.SphereGeometry(0.07,12,12),
+        new THREE.MeshBasicMaterial({color:LIME}));
+    m.userData=e; group.add(m); return m;
+  });
+
+  // --- Scroll progress --------------------------------------------------------
+  let p=0, target=0;
+  function onScroll(){
+    const max=document.body.scrollHeight - innerHeight;
+    target=max>0 ? Math.min(1,Math.max(0,scrollY/max)) : 0;
+  }
+  addEventListener('scroll',onScroll,{passive:true}); onScroll();
+
+  // --- Animate ----------------------------------------------------------------
+  const clock=new THREE.Clock();
+  function tick(){
+    const t=clock.getElapsedTime();
+    p += (target-p)*0.08;                          // eased follow -> silky scrub
+
+    // 1) camera: dolly in and orbit slightly as p goes 0->1
+    const ang = -0.5 + p*0.9 + Math.sin(t*0.15)*0.05;
+    const dist = 13 - p*5.5;
+    camera.position.set(Math.sin(ang)*dist, 1.5 - p*1.2, Math.cos(ang)*dist);
+    camera.lookAt(0, -p*0.4, 0);
+
+    group.rotation.y = t*0.04;                      // gentle idle spin
+
+    // 2) energy flow: pulses ride edges once p>0.15, speed scales with p
+    const flow = Math.max(0,(p-0.15)/0.85);
+    pulses.forEach((m,i)=>{
+      const a=buses[m.userData.a].position, b=buses[m.userData.b].position;
+      const k=((t*(0.15+flow*0.6)) + i*0.13) % 1;
+      m.position.lerpVectors(a,b,k);
+      m.material.opacity=flow; m.visible=flow>0.02;
+      m.scale.setScalar(0.6+flow);
+    });
+
+    // 3) capacity expansion: buses grow + glow near the end of the scroll
+    const build=Math.max(0,(p-0.55)/0.45);
+    buses.forEach((mesh,i)=>{
+      const local=Math.max(0,Math.min(1,build*1.6 - (i/buses.length)));
+      const s=mesh.userData.base*(1+local*1.7);
+      mesh.scale.setScalar(1+local*1.7);
+      mesh.material.emissiveIntensity=0.15+local*0.9;
+      mesh.material.color.setHex(local>0.5?LIME:TEAL);
+    });
+
+    renderer.render(scene,camera);
+    requestAnimationFrame(tick);
+  }
+  tick();
+
+  addEventListener('resize',()=>{
+    camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth,innerHeight);
+  });
+  </script>
+</body>
+</html>
