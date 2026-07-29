@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Parallax hero — energy landscape (MOCKUP)</title>
+<style>
+  :root{--ink:#0b2528;--teal:#126568;--paper:#f6f3ea;--lime:#d9ff77;--line:rgba(11,37,40,.15)}
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;overflow-x:hidden}
+  .flag{position:fixed;top:12px;left:12px;z-index:50;background:var(--ink);color:var(--lime);
+        font-size:11px;letter-spacing:.06em;padding:6px 11px;border-radius:4px}
+
+  /* ---- Parallax stage ---- */
+  .hero{position:relative;height:100vh;min-height:560px;overflow:hidden;
+        background:linear-gradient(180deg,#dff0ef 0%,#eaf3ec 55%,#f6f3ea 100%)}
+  .layer{position:absolute;left:0;right:0;bottom:0;will-change:transform;pointer-events:none}
+  .layer svg{display:block;width:100%;height:auto}
+  .sun{top:9%;left:50%;width:150px;height:150px;bottom:auto;transform:translateX(-50%);
+       background:radial-gradient(circle,rgba(217,255,119,.55),rgba(217,255,119,0) 68%)}
+  /* blade spin, subtle */
+  .blades{transform-box:fill-box;transform-origin:center;animation:spin 14s linear infinite}
+  .blades.slow{animation-duration:20s}
+  @keyframes spin{to{transform:rotate(360deg)}}
+  /* spark dashes travelling along the lines */
+  .flow{stroke-dasharray:2 12;animation:dash 2.4s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-140}}
+
+  /* ---- Hero copy ---- */
+  .hero-copy{position:absolute;z-index:6;left:8vw;top:26vh;max-width:560px;will-change:transform,opacity}
+  .eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:bold}
+  h1{font:600 clamp(40px,6.5vw,88px)/.98 Georgia,serif;letter-spacing:-.04em;margin:16px 0 18px}
+  h1 em{font-style:normal;color:var(--teal)}
+  .lead{font-size:18px;line-height:1.6;color:#3f5553;max-width:460px}
+  .scrollcue{position:absolute;left:50%;bottom:26px;transform:translateX(-50%);z-index:6;color:var(--teal);
+             font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;animation:bob 1.8s ease-in-out infinite}
+  @keyframes bob{50%{transform:translate(-50%,6px)}}
+
+  /* ---- Content below, so there is something to scroll into ---- */
+  .below{padding:12vh 8vw;max-width:900px;margin:0 auto}
+  .below h2{font:400 clamp(26px,3.6vw,42px)/1.15 Georgia,serif;margin-bottom:14px}
+  .below h2 em{color:var(--teal)}
+  .below p{font-size:16px;line-height:1.7;color:#3f5553;max-width:640px}
+  .note{margin-top:22px;padding:18px 20px;border:1px solid var(--line);border-radius:8px;background:#fff;
+        font-size:14px;color:#4a615e}
+  footer{background:var(--ink);color:#b8c8c5;padding:30px 8vw;font-size:12px;text-align:center;margin-top:8vh}
+
+  @media(prefers-reduced-motion:reduce){
+    .layer{transform:none!important}
+    .blades,.flow{animation:none}
+    .scrollcue{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="flag">MOCKUP · parallax hero · not on the live site</div>
+
+<section class="hero" id="hero">
+  <!-- back → front. data-depth = how much each layer shifts (bigger = faster/closer) -->
+  <div class="layer sun" data-depth="-0.06"></div>
+
+  <!-- far ridgeline -->
+  <div class="layer" data-depth="0.06" style="bottom:0">
+    <svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice">
+      <path d="M0,300 L0,190 C220,150 380,205 620,175 C900,140 1050,200 1440,165 L1440,300 Z" fill="#cfe4e0"/>
+    </svg>
+  </div>
+
+  <!-- distant wind farm -->
+  <div class="layer" data-depth="0.14" style="bottom:60px">
+    <svg viewBox="0 0 1440 240" preserveAspectRatio="xMidYMax slice">
+      <g fill="#a9c6c0" stroke="#a9c6c0">
+        <!-- turbine helper repeated -->
+        <g transform="translate(210,120)"><rect x="-2" y="0" width="4" height="96"/><g class="blades slow"><path d="M0,0 L0,-40 M0,0 L34,20 M0,0 L-34,20" stroke-width="4" fill="none"/></g><circle r="4"/></g>
+        <g transform="translate(360,140) scale(.85)"><rect x="-2" y="0" width="4" height="96"/><g class="blades"><path d="M0,0 L0,-40 M0,0 L34,20 M0,0 L-34,20" stroke-width="4" fill="none"/></g><circle r="4"/></g>
+        <g transform="translate(1080,132) scale(.9)"><rect x="-2" y="0" width="4" height="96"/><g class="blades slow"><path d="M0,0 L0,-40 M0,0 L34,20 M0,0 L-34,20" stroke-width="4" fill="none"/></g><circle r="4"/></g>
+        <g transform="translate(1230,150) scale(.8)"><rect x="-2" y="0" width="4" height="96"/><g class="blades"><path d="M0,0 L0,-40 M0,0 L34,20 M0,0 L-34,20" stroke-width="4" fill="none"/></g><circle r="4"/></g>
+      </g>
+    </svg>
+  </div>
+
+  <!-- mid ridge -->
+  <div class="layer" data-depth="0.24" style="bottom:0">
+    <svg viewBox="0 0 1440 240" preserveAspectRatio="xMidYMax slice">
+      <path d="M0,240 L0,150 C260,120 520,180 760,150 C1020,118 1200,168 1440,140 L1440,240 Z" fill="#9dbfb8"/>
+    </svg>
+  </div>
+
+  <!-- transmission line with travelling sparks -->
+  <div class="layer" data-depth="0.42" style="bottom:70px">
+    <svg viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice">
+      <g stroke="#4a615e" fill="#4a615e">
+        <!-- lattice towers -->
+        <g stroke-width="2" fill="none">
+          <path d="M180,220 L200,60 L220,220 M180,150 L220,150 M186,110 L214,110 M160,86 L240,86 M160,70 L240,70"/>
+          <path d="M700,220 L718,60 L736,220 M700,150 L736,150 M706,110 L730,110 M680,86 L756,86 M680,70 L756,70"/>
+          <path d="M1220,220 L1238,60 L1256,220 M1220,150 L1256,150 M1226,110 L1250,110 M1200,86 L1276,86 M1200,70 L1276,70"/>
+        </g>
+        <!-- catenary conductors -->
+        <path d="M200,78 C420,140 520,140 718,78" fill="none" stroke-width="1.6"/>
+        <path d="M718,78 C940,140 1040,140 1238,78" fill="none" stroke-width="1.6"/>
+        <!-- travelling sparks (dashes) -->
+        <path class="flow" d="M200,78 C420,140 520,140 718,78" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round"/>
+        <path class="flow" d="M718,78 C940,140 1040,140 1238,78" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round" style="animation-delay:.6s"/>
+      </g>
+    </svg>
+  </div>
+
+  <!-- foreground hill (moves most) -->
+  <div class="layer" data-depth="0.72" style="bottom:0">
+    <svg viewBox="0 0 1440 200" preserveAspectRatio="xMidYMax slice">
+      <path d="M0,200 L0,120 C300,70 620,150 900,110 C1150,76 1300,120 1440,96 L1440,200 Z" fill="#5e837c"/>
+      <path d="M0,200 L0,150 C360,120 700,180 1040,150 C1240,132 1360,160 1440,148 L1440,200 Z" fill="#3f5f59"/>
+    </svg>
+  </div>
+
+  <!-- hero copy -->
+  <div class="hero-copy" id="copy">
+    <p class="eyebrow">Energy planning · research · open models</p>
+    <h1>Clearer pathways to a <em>low-carbon future.</em></h1>
+    <p class="lead">A layered, transform-based parallax — subtle depth without a heavy 3D engine. Scroll to feel the landscape separate.</p>
+  </div>
+  <div class="scrollcue">scroll ↓</div>
+</section>
+
+<div class="below">
+  <h2>Why this approach is the <em>intelligent</em> middle path.</h2>
+  <p>Each layer shifts at a different rate using <code>transform: translate3d()</code>, which the browser composites on the GPU — so scrolling stays smooth even on mid-range phones, and the whole thing works fully offline with no WebGL. Displacement is kept deliberately small (a few dozen pixels between layers); heavy parallax reads as amateur and can cause motion discomfort, so restraint is the point.</p>
+  <div class="note">
+    <strong>Built in:</strong> the entire effect freezes automatically for anyone with “reduce motion” enabled (try toggling it in your OS settings and reloading) — the scene simply becomes a clean static illustration. That accessibility fallback is what separates an <em>intelligent</em> hero from a gimmick.
+  </div>
+  <p style="margin-top:26px">Swap these schematic SVG shapes for a hand-drawn or rendered energy landscape and you keep the exact same performance profile. This mockup exists so you can judge the <em>motion</em> before committing to final artwork.</p>
+</div>
+
+<footer>MOCKUP · parallax hero concept · standalone sample, not on the live site</footer>
+
+<script>
+// Transform-based parallax: one rAF loop, translate each layer by scroll × depth.
+(function(){
+  var hero=document.getElementById('hero');
+  var layers=[].slice.call(document.querySelectorAll('.layer'));
+  var copy=document.getElementById('copy');
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches;
+  if(reduce) return;                       // honour reduced-motion: no JS transforms
+  var ticking=false, y=0;
+
+  function apply(){
+    ticking=false;
+    // only animate while the hero is on screen (cheap + avoids offscreen work)
+    if(y > hero.offsetHeight) return;
+    layers.forEach(function(l){
+      var d=parseFloat(l.getAttribute('data-depth'))||0;
+      var base=l.classList.contains('sun') ? 'translateX(-50%) ' : '';
+      l.style.transform = base + 'translate3d(0,'+(y*d)+'px,0)';
+    });
+    if(copy){                              // copy drifts up and fades as you scroll
+      var p=Math.min(1, y/(hero.offsetHeight*0.8));
+      copy.style.transform='translate3d(0,'+(y*0.18)+'px,0)';
+      copy.style.opacity=(1-p).toFixed(3);
+    }
+  }
+  addEventListener('scroll',function(){
+    y=window.scrollY||window.pageYOffset;
+    if(!ticking){ ticking=true; requestAnimationFrame(apply); }
+  },{passive:true});
+  apply();
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+/* ===== Learn tab — all rules scoped under #learn so nothing leaks to other tabs ===== */
+#learn{--wind:#5f9e8f;--solar:#e2b93b;--hydro:#2f7f86;--gas:#b7743a;--stor:#7a5cc0}
+#learn.tab{padding:52px 4vw 80px}
+#learn .section-heading{margin-bottom:20px}
+#learn .wrap{max-width:1240px;margin:0 auto;padding:0}
+#learn .lsec{padding:7vh 0}
+#learn .ldiv{height:1px;background:var(--line)}
+#learn .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:bold}
+#learn h2{font:400 clamp(30px,4vw,48px)/1.1 Georgia,serif;margin:0 0 14px;letter-spacing:0}
+#learn h2 em{font-family:Georgia,serif;color:var(--teal)}
+#learn h3{font-size:23px;margin:0 0 8px;font-weight:600}
+#learn p{font-size:17px;color:#3f5553;line-height:1.6}
+#learn .lead{font-size:22px;max-width:820px;color:#425856;line-height:1.55;margin-top:8px}
+#learn .part-tag{display:inline-block;margin-bottom:22px;padding:7px 14px;border:1px solid var(--line);
+  border-radius:20px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+
+/* scrollytelling */
+#learn .scrolly{display:grid;grid-template-columns:1.1fr .9fr;gap:4vw;align-items:start}
+#learn .scene-col{position:sticky;top:86px;height:calc(100vh - 86px);display:flex;align-items:center;padding:0}
+/* card is capped to the viewport; the SVG scales to fill whatever the detail panel leaves,
+   so every step's illustration + panel stays fully on-screen while scrolling */
+#learn .scene-card{width:100%;max-height:calc(100vh - 104px);display:flex;flex-direction:column;
+  background:linear-gradient(160deg,#fff,#eef4ef);border:1px solid var(--line);
+  border-radius:12px;padding:20px;box-shadow:0 24px 60px rgba(11,37,40,.10);overflow:hidden}
+#learn .scene{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}
+#learn .scene svg{width:100%;height:auto;max-height:100%;display:block;margin:auto}
+#learn .scene svg text{font-size:12.5px}
+#learn .scene svg text[font-family="monospace"]{font-size:13px}
+
+/* opaque card so the panel is clearly separated from the schematic above (no overlap bleed) */
+#learn .detail{flex:0 0 auto;margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+#learn .detail svg{max-height:120px}
+#learn .mini svg{max-width:150px;height:auto;margin:0 auto;display:block}
+#learn .dpanel[data-d="1"] svg{max-width:340px}
+#learn .dpanel{display:none}
+#learn .dpanel.on{display:block;animation:learnfade .4s ease}
+@keyframes learnfade{from{opacity:0;transform:translateY(6px)}}
+#learn .dhead{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:bold;margin-bottom:10px}
+#learn .dsub{font-size:14px;color:#546966;margin-top:10px;line-height:1.55}
+#learn .dsub em{color:var(--teal);font-style:normal;font-weight:bold}
+#learn .leg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+#learn .leg-grid span{display:flex;align-items:center;gap:9px;font-size:14px;color:#425856}
+#learn .leg-grid svg{width:30px;height:30px;flex:0 0 30px}
+#learn .lp{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.75;color:#26403e;
+  background:#eef4f1;border:1px solid var(--line);border-radius:8px;padding:14px 16px;white-space:pre-wrap}
+#learn .lp b{color:var(--teal)}
+#learn .solve-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+#learn .mini{border:1px solid var(--line);border-radius:8px;padding:14px}
+#learn .mini .t{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:bold;margin-bottom:10px}
+#learn .mini.dark{background:var(--ink)}
+#learn .mini.dark .t{color:var(--lime)}
+#learn .mini.dark li{color:#eaf3ec}
+#learn .mini ul{margin:0;padding-left:2px;list-style:none}
+#learn .mini li{font-size:14px;display:flex;align-items:center;gap:8px;padding:4px 0}
+#learn .mini li i{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+
+#learn .steps{padding:20vh 0}
+#learn .step{min-height:84vh;display:flex;flex-direction:column;justify-content:center}
+#learn .step .n{font:700 clamp(34px,3.6vw,52px)/1 Georgia,serif;color:#b7c2bf;margin-bottom:6px}
+#learn .step.dim{opacity:.34;transition:opacity .4s}
+#learn .step.on{opacity:1}
+#learn .step p{font-size:18.5px;line-height:1.66}
+#learn .step h3{font-size:24px}
+#learn .caption{margin-top:16px;font-size:14px;color:#7a8a87;font-style:italic}
+
+#learn .stackbar{transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+#learn .stackbar.on{transform:scaleY(1)}
+#learn [data-step]{opacity:0;transform:translateY(7px);transition:opacity .55s ease,transform .55s ease}
+#learn [data-step].on{opacity:1;transform:none}
+#learn .flow{stroke-dasharray:2 11;animation:learndash 2.2s linear infinite}
+@keyframes learndash{to{stroke-dashoffset:-130}}
+/* global (not #learn-scoped): must reach inside <use> shadow content */
+.spin{transform-box:fill-box;transform-origin:center;animation:learnspin 9s linear infinite}
+@keyframes learnspin{to{transform:rotate(360deg)}}
+
+/* real vs model */
+#learn .map2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:10px}
+#learn .mcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:0 18px 46px rgba(11,37,40,.07)}
+#learn .mcard h3{display:flex;align-items:center;gap:9px;font-size:20px}
+#learn .mcard p{font-size:15px}
+#learn .mcard svg{width:100%;height:auto}
+#learn .map2 svg text{font-size:12px}
+#learn .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+#learn .maplist{margin-top:26px}
+#learn .maprow{display:grid;grid-template-columns:1.05fr auto 1.55fr;gap:22px;align-items:center;
+  padding:20px 4px;border-top:1px solid var(--line)}
+#learn .maprow:last-child{border-bottom:1px solid var(--line)}
+#learn .real{display:flex;align-items:center;gap:13px;font-weight:bold;color:var(--ink);font-size:17px}
+#learn .real svg{width:46px;height:46px;flex:0 0 46px}
+#learn .arrow{color:var(--teal);font-size:20px}
+#learn .modeltxt{font-size:16.5px;color:#4a615e;line-height:1.55}
+#learn .modeltxt code{background:var(--soft);padding:2px 6px;border-radius:4px;font-size:14px;color:var(--teal)}
+
+/* comparison */
+#learn .compare{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:10px}
+#learn .ccard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:0 18px 46px rgba(11,37,40,.07)}
+#learn .cardA{border-top:4px solid var(--teal)}
+#learn .cardB{border-top:4px solid var(--gas)}
+#learn .cardhead{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+#learn .pill{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:20px;color:#fff}
+#learn .pillA{background:var(--teal)}
+#learn .pillB{background:var(--gas)}
+#learn .cmp-svg{width:100%;height:auto;margin:14px 0 6px}
+#learn .cmp-svg text{font-size:12px}
+#learn .zoom{margin-top:22px;background:linear-gradient(135deg,#eef4f1,#f6f3ea);border:1px solid var(--line);border-radius:12px;padding:22px 24px}
+#learn .zoom svg{width:100%;height:auto;display:block;margin-bottom:10px}
+#learn .zoom svg text{font-size:12px}
+#learn .zoom p{font-size:16px}
+#learn .zoom b{color:var(--teal)}
+#learn table{width:100%;border-collapse:collapse;margin-top:34px;font-size:15.5px}
+#learn th,#learn td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+#learn thead th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+#learn td:first-child{font-weight:bold;color:var(--ink);width:24%}
+#learn .why{margin-top:34px;background:linear-gradient(135deg,rgba(230,244,237,.85),rgba(248,246,238,.75));
+  border:1px solid var(--line);border-radius:12px;padding:30px}
+#learn .why h3{font-size:24px}
+#learn .why svg{width:100%;height:auto;display:block;margin:12px 0 22px}
+#learn .why p{font-size:17.5px;line-height:1.7}
+#learn .why p+p{margin-top:14px}
+#learn .why .me{background:var(--ink);color:#eaf3ec;border-radius:10px;padding:16px 18px;margin-top:16px;font-size:16px}
+#learn .why .me strong{color:var(--lime)}
+#learn .legendrow{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12.5px;color:#4a615e}
+#learn .legendrow span{display:inline-flex;align-items:center;gap:6px}
+#learn .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+
+@media(max-width:860px){
+  #learn .scrolly{grid-template-columns:1fr}
+  #learn .scene-col{position:sticky;top:82px;height:auto;padding:8px 0;background:rgba(246,243,234,.92);z-index:4}
+  #learn .scene-card{padding:14px;max-height:60vh}
+  #learn .detail svg{max-height:96px}
+  #learn .steps{padding:2vh 0}
+  #learn .step{min-height:0;padding:22px 0;opacity:1}
+  #learn .step.dim{opacity:1}
+  #learn .map2,#learn .compare{grid-template-columns:1fr}
+  #learn .maprow{grid-template-columns:auto 1fr;gap:12px}
+  #learn .maprow .arrow{display:none}
+  #learn .maprow .modeltxt{grid-column:1 / -1}
+  #learn td:first-child{width:34%}
+}
+@media(prefers-reduced-motion:reduce){
+  #learn [data-step],#learn .stackbar,#learn .dpanel.on{transition:none;animation:none;opacity:1;transform:none}
+  #learn .flow,#learn .spin,#learn .sweep{animation:none}
+}

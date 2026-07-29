@@ -69,6 +69,12 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}body{overflow-x:hidden}main{
 .current-position.personal strong{color:var(--teal);font:600 13px Arial,sans-serif}
 @media(prefers-reduced-motion:reduce){::view-transition-old(active-tab),::view-transition-new(active-tab){animation:none}}
 
+/* Active tab must always read white — even under sticky touch-hover or during a view transition */
+.site-header nav a.active,.site-header nav a.active:hover,.site-header nav a.active:focus{color:#fff}
+.site-header nav a.active .nav-icon,.site-header nav a.active:hover .nav-icon{color:var(--lime)}
+/* Hover lift/glow only on devices that can truly hover (prevents stuck states on touch) */
+@media(hover:none){.site-header nav a:hover{color:#657674;transform:none;text-shadow:none}}
+
 /* Profile credentials and training */
 .credentials{margin-top:85px;padding:46px;border:1px solid rgba(18,101,104,.14);background:linear-gradient(135deg,rgba(230,244,237,.82),rgba(248,246,238,.76));backdrop-filter:blur(10px)}.credentials-heading{display:flex;align-items:end;justify-content:space-between;gap:35px;margin-bottom:28px}.credentials-heading h2{font:400 clamp(27px,3vw,42px) Georgia,serif;margin:0}.badge-links{display:grid;grid-template-columns:repeat(2,minmax(210px,1fr));gap:12px;max-width:650px}.badge-links>a{display:flex;align-items:center;gap:14px;padding:15px 17px;border:1px solid rgba(18,101,104,.16);background:rgba(255,255,255,.55);text-decoration:none;transition:transform .25s ease,box-shadow .25s ease,background .25s ease}.badge-links>a:hover{transform:translateY(-3px);background:white;box-shadow:0 12px 28px rgba(11,37,40,.08)}.badge-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:50%;background:#dff2e8;color:var(--teal);border:1px solid rgba(18,101,104,.22);font-size:18px}.badge-links strong,.badge-links small{display:block}.badge-links strong{font-size:12px}.badge-links small{font-size:9px;color:var(--teal);margin-top:4px;text-transform:uppercase;letter-spacing:.08em}.training-note{margin-top:30px;padding-top:25px;border-top:1px solid var(--line)}.training-note>p{font:italic 14px Georgia,serif;color:var(--teal);margin:0 0 13px}.training-note>div{display:flex;flex-wrap:wrap;gap:8px}.training-note span{padding:8px 11px;border-radius:18px;background:rgba(219,240,230,.72);border:1px solid rgba(18,101,104,.1);color:#48625f;font-size:11px}
 @media(max-width:700px){.credentials{padding:28px 22px}.credentials-heading{align-items:flex-start;flex-direction:column}.badge-links{grid-template-columns:1fr}}
@@ -168,3 +174,10 @@ html{scroll-behavior:smooth;scroll-padding-top:90px}body{overflow-x:hidden}main{
 
 /* Landing GitHub profile action */
 .github-button{display:inline-flex;align-items:center;justify-content:center;gap:8px}.github-button img{width:17px;height:17px;object-fit:contain}
+
+/* Interaction polish — kills tap-flash and 300ms delay, smooths momentum scroll */
+a,button,.button{-webkit-tap-highlight-color:transparent}
+.site-header nav a,.button,.projects>a,.now-model-grid>a,.badge-links>a{touch-action:manipulation}
+body{-webkit-overflow-scrolling:touch;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased}
+/* Avoid double-animating a tab that is also cross-faded by the View Transitions API */
+@supports (view-transition-name:a){.tab.active{animation:none}}

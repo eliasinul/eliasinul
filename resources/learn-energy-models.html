@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Energy models in 60 seconds — Learning explainer (SAMPLE)</title>
+<style>
+  :root{
+    --ink:#0b2528;--teal:#126568;--paper:#f6f3ea;--soft:#e9ebe3;--lime:#d9ff77;--line:rgba(11,37,40,.15);
+    --wind:#5f9e8f;--solar:#e2b93b;--hydro:#2f7f86;--gas:#b7743a;--stor:#7a5cc0;
+  }
+  *{box-sizing:border-box;margin:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:Arial,Helvetica,sans-serif;line-height:1.6}
+  .flag{position:fixed;top:12px;left:12px;z-index:20;background:var(--ink);color:var(--lime);
+        font-size:11px;letter-spacing:.06em;padding:6px 11px;border-radius:4px}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 6vw}
+  .eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--teal);font-weight:bold}
+  h1{font:600 clamp(40px,6vw,74px)/1 Georgia,serif;letter-spacing:-.03em;margin:16px 0 18px}
+  h1 em{font-style:normal;color:var(--teal)}
+  h2{font:400 clamp(30px,4vw,48px)/1.1 Georgia,serif;margin:0 0 14px}
+  h2 em{color:var(--teal)}
+  h3{font-size:23px;margin:0 0 8px}
+  p{font-size:17px;color:#3f5553}
+  .lead{font-size:22px;max-width:780px;color:#425856;line-height:1.55}
+  header.hero{padding:14vh 0 8vh}
+  .divider{height:1px;background:var(--line)}
+  section{padding:9vh 0}
+  .part-tag{display:inline-block;margin-bottom:22px;padding:7px 14px;border:1px solid var(--line);
+            border-radius:20px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
+
+  /* ---------- Scrollytelling ---------- */
+  .scrolly{display:grid;grid-template-columns:1.1fr .9fr;gap:4vw;align-items:start}
+  .scene-col{position:sticky;top:0;min-height:100vh;display:flex;align-items:center;padding:3vh 0}
+  .scene-card{width:100%;background:linear-gradient(160deg,#fff,#eef4ef);border:1px solid var(--line);
+              border-radius:12px;padding:26px;box-shadow:0 24px 60px rgba(11,37,40,.10)}
+  .scene svg{width:100%;height:auto;display:block}
+  .scene svg text{font-size:12.5px}
+  .scene svg text[font-family="monospace"]{font-size:13px}
+
+  /* detail panel — separate from the canvas, swaps per step */
+  .detail{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .detail svg{max-height:130px}
+  .mini svg{max-width:150px;height:auto;margin:0 auto;display:block}
+  .dpanel[data-d="1"] svg{max-width:340px}
+  .dpanel{display:none}
+  .dpanel.on{display:block;animation:fade .4s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}}
+  .dhead{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:bold;margin-bottom:10px}
+  .dsub{font-size:14px;color:#546966;margin-top:10px}
+  .dsub em{color:var(--teal);font-style:normal;font-weight:bold}
+  .leg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .leg-grid span{display:flex;align-items:center;gap:9px;font-size:14px;color:#425856}
+  .leg-grid svg{width:30px;height:30px;flex:0 0 30px}
+  .lp{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.75;color:#26403e;
+      background:#eef4f1;border:1px solid var(--line);border-radius:8px;padding:14px 16px;white-space:pre-wrap}
+  .lp b{color:var(--teal)}
+  .solve-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .mini{border:1px solid var(--line);border-radius:8px;padding:14px}
+  .mini .t{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal);font-weight:bold;margin-bottom:10px}
+  .mini.dark{background:var(--ink)}
+  .mini.dark .t{color:var(--lime)}
+  .mini.dark li{color:#eaf3ec}
+  .mini ul{margin:0;padding-left:2px;list-style:none}
+  .mini li{font-size:14px;display:flex;align-items:center;gap:8px;padding:4px 0}
+  .mini li i{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
+
+  .steps{padding:24vh 0}
+  .step{min-height:84vh;display:flex;flex-direction:column;justify-content:center}
+  .step .n{font:700 clamp(34px,3.6vw,52px)/1 Georgia,serif;color:#b7c2bf;margin-bottom:6px}
+  .step.dim{opacity:.34;transition:opacity .4s}
+  .step.on{opacity:1}
+  .step p{font-size:18.5px;line-height:1.66}
+  .caption{margin-top:16px;font-size:14px;color:#7a8a87;font-style:italic}
+
+  .stackbar{transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+  .stackbar.on{transform:scaleY(1)}
+  [data-step]{opacity:0;transform:translateY(7px);transition:opacity .55s ease,transform .55s ease}
+  [data-step].on{opacity:1;transform:none}
+  .flow{stroke-dasharray:2 11;animation:dash 2.2s linear infinite}
+  @keyframes dash{to{stroke-dashoffset:-130}}
+  .spin{transform-box:fill-box;transform-origin:center;animation:spin 9s linear infinite}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  /* ---------- Real vs Model mapping ---------- */
+  .map2{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:10px}
+  .mcard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:22px;box-shadow:0 18px 46px rgba(11,37,40,.07)}
+  .mcard h3{display:flex;align-items:center;gap:9px;font-size:20px}
+  .mcard p{font-size:15px}
+  .mcard svg{width:100%;height:auto}
+  .map2 svg text{font-size:12px}
+  .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+  .maplist{margin-top:26px}
+  .maprow{display:grid;grid-template-columns:1.05fr auto 1.55fr;gap:22px;align-items:center;
+          padding:20px 4px;border-top:1px solid var(--line)}
+  .maprow:last-child{border-bottom:1px solid var(--line)}
+  .real{display:flex;align-items:center;gap:13px;font-weight:bold;color:var(--ink);font-size:17px}
+  .real svg{width:46px;height:46px;flex:0 0 46px}
+  .arrow{color:var(--teal);font-size:20px}
+  .modeltxt{font-size:16.5px;color:#4a615e;line-height:1.55}
+  .modeltxt code{background:var(--soft);padding:2px 6px;border-radius:4px;font-size:14px;color:var(--teal)}
+
+  /* ---------- Part C ---------- */
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:26px;margin-top:10px}
+  .ccard{background:#fff;border:1px solid var(--line);border-radius:12px;padding:24px;box-shadow:0 18px 46px rgba(11,37,40,.07)}
+  .cardA{border-top:4px solid var(--teal)} .cardB{border-top:4px solid var(--gas)}
+  .cardhead{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+  .pill{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;border-radius:20px;color:#fff}
+  .pillA{background:var(--teal)} .pillB{background:var(--gas)}
+  .cmp-svg{width:100%;height:auto;margin:14px 0 6px}
+  .cmp-svg text{font-size:12px}
+  /* zoom-dissection banner between the two charts */
+  .zoom{margin-top:22px;background:linear-gradient(135deg,#eef4f1,#f6f3ea);border:1px solid var(--line);
+        border-radius:12px;padding:22px 24px}
+  .zoom svg{width:100%;height:auto;display:block;margin-bottom:10px}
+  .zoom svg text{font-size:12px}
+  .zoom p{font-size:16px}
+  .zoom b{color:var(--teal)}
+  table{width:100%;border-collapse:collapse;margin-top:34px;font-size:15.5px}
+  th,td{text-align:left;padding:15px 16px;border-bottom:1px solid var(--line);vertical-align:top}
+  thead th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--teal)}
+  td:first-child{font-weight:bold;color:var(--ink);width:24%}
+  .why{margin-top:34px;background:linear-gradient(135deg,rgba(230,244,237,.85),rgba(248,246,238,.75));
+       border:1px solid var(--line);border-radius:12px;padding:30px}
+  .why h3{font-size:24px}
+  .why svg{width:100%;height:auto;display:block;margin:12px 0 22px}
+  .why p{font-size:17.5px;line-height:1.7}
+  .why p+p{margin-top:14px}
+  .why .me{background:var(--ink);color:#eaf3ec;border-radius:10px;padding:16px 18px;margin-top:16px;font-size:16px}
+  .why .me strong{color:var(--lime)}
+  .legendrow{display:flex;flex-wrap:wrap;gap:14px;margin-top:12px;font-size:12.5px;color:#4a615e}
+  .legendrow span{display:inline-flex;align-items:center;gap:6px}
+  .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
+  footer{background:var(--ink);color:#b8c8c5;padding:34px 6vw;font-size:13px;text-align:center}
+  footer strong{color:#fff;font:17px Georgia,serif}
+
+  @media(max-width:860px){
+    .scrolly{grid-template-columns:1fr}
+    .scene-col{position:sticky;top:0;min-height:auto;padding:12px 0;background:var(--paper);z-index:5}
+    .scene-card{padding:16px}
+    .steps{padding:2vh 0}
+    .step{min-height:0;padding:24px 0;opacity:1}
+    .step.dim{opacity:1}
+    .map2,.compare{grid-template-columns:1fr}
+    .maprow{grid-template-columns:auto 1fr;gap:12px}
+    .maprow .arrow{display:none}
+    .maprow .modeltxt{grid-column:1 / -1}
+    td:first-child{width:34%}
+  }
+  @media(prefers-reduced-motion:reduce){
+    [data-step],.stackbar,.dpanel.on{transition:none;animation:none;opacity:1;transform:none}
+    .flow,.spin,.sweep{animation:none}
+  }
+</style>
+</head>
+<body>
+<div class="flag">SAMPLE · learning resource · not yet on the live site</div>
+
+<!-- ===== Shared icon library ===== -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <symbol id="ic-wind" viewBox="0 0 40 40">
+    <rect x="19" y="15" width="2" height="21" fill="#3f5553"/>
+    <g class="spin"><g fill="none" stroke="#5f9e8f" stroke-width="3" stroke-linecap="round">
+      <path d="M20,15 L20,4"/><path d="M20,15 L29,20"/><path d="M20,15 L11,20"/></g></g>
+    <circle cx="20" cy="15" r="2.4" fill="#3f5553"/>
+  </symbol>
+  <symbol id="ic-solar" viewBox="0 0 40 40">
+    <g transform="rotate(-15 20 21)">
+      <rect x="7" y="13" width="26" height="15" fill="#e2b93b" stroke="#3f5553" stroke-width="1"/>
+      <path d="M14,13 L14,28 M20,13 L20,28 M26,13 L26,28 M7,18 L33,18 M7,23 L33,23" stroke="#3f5553" stroke-width=".7"/>
+    </g>
+    <rect x="19" y="28" width="2" height="8" fill="#3f5553"/>
+  </symbol>
+  <symbol id="ic-hydro" viewBox="0 0 40 40">
+    <path d="M8,12 C18,14 22,14 32,12 L32,7 C22,9 18,9 8,7 Z" fill="#2f7f86"/>
+    <path d="M8,12 C18,14 22,14 32,12 L30,35 L10,35 Z" fill="#cdd8d3" stroke="#3f5553" stroke-width="1"/>
+    <path d="M11,21 L29,21 M12,28 L28,28" stroke="#3f5553" stroke-width=".8"/>
+  </symbol>
+  <symbol id="ic-gas" viewBox="0 0 40 40">
+    <circle cx="26" cy="8" r="3" fill="#dfe3dd"/><circle cx="30" cy="5" r="2.2" fill="#e8ebe6"/>
+    <rect x="23" y="9" width="5" height="26" fill="#b7743a"/>
+    <rect x="8" y="19" width="17" height="16" fill="#c9d3cc" stroke="#3f5553" stroke-width="1"/>
+    <rect x="11" y="23" width="4" height="4" fill="#3f5553"/><rect x="17" y="23" width="4" height="4" fill="#3f5553"/>
+  </symbol>
+  <symbol id="ic-batt" viewBox="0 0 40 40">
+    <rect x="18" y="8" width="6" height="4" fill="#7a5cc0"/>
+    <rect x="12" y="11" width="18" height="24" rx="2" fill="#efeaf7" stroke="#7a5cc0" stroke-width="1.4"/>
+    <path d="M22,15 L16,25 L21,25 L20,32 L27,21 L22,21 Z" fill="#7a5cc0"/>
+  </symbol>
+  <symbol id="ic-city" viewBox="0 0 40 40">
+    <rect x="6" y="19" width="9" height="16" fill="#0b2528"/>
+    <rect x="16" y="9" width="9" height="26" fill="#183f42"/>
+    <rect x="26" y="22" width="8" height="13" fill="#0b2528"/>
+    <g fill="#d9ff77"><rect x="18" y="13" width="2" height="2"/><rect x="21.5" y="13" width="2" height="2"/><rect x="18" y="18" width="2" height="2"/><rect x="21.5" y="18" width="2" height="2"/><rect x="9" y="23" width="2" height="2"/><rect x="28.5" y="26" width="2" height="2"/></g>
+  </symbol>
+  <symbol id="ic-tower" viewBox="0 0 40 40">
+    <g fill="none" stroke="#4a615e" stroke-width="1.5">
+      <path d="M13,36 L20,6 L27,36 M13,25 L27,25 M15,17 L25,17 M8,12 L32,12 M8,8 L32,8"/>
+    </g>
+  </symbol>
+</defs></svg>
+
+<header class="hero"><div class="wrap">
+  <p class="eyebrow">Learn · interactive explainer</p>
+  <h1>Energy models, <em>in 60 seconds.</em></h1>
+  <p class="lead">A visual tour of what an energy-system model actually is — how a messy real-world grid becomes a tidy network of equations a computer can solve, and the one distinction that trips most people up: capacity-expansion versus operational models. Scroll to build the picture. All figures are schematic, for explanation only.</p>
+</div></header>
+
+<div class="divider"></div>
+
+<!-- ===================== PART A ===================== -->
+<section><div class="wrap">
+  <span class="part-tag">Part A · building a toy network</span>
+  <div class="scrolly">
+
+    <div class="scene-col"><div class="scene-card">
+      <div class="scene" id="scene">
+        <svg viewBox="0 0 520 430" role="img" aria-label="Three-bus toy energy network">
+          <!-- boundary + buses (step 0) -->
+          <g data-step="0" class="on">
+            <rect x="12" y="12" width="496" height="406" rx="14" fill="none" stroke="#126568" stroke-width="1.4" stroke-dasharray="6 6"/>
+            <text x="28" y="36" fill="#126568" font-family="monospace">toy_network</text>
+            <rect x="72"  y="176" width="86" height="9" rx="4" fill="#126568"/><text x="72"  y="168" fill="#3f5553">Bus A · North</text>
+            <rect x="362" y="176" width="86" height="9" rx="4" fill="#126568"/><text x="362" y="168" fill="#3f5553">Bus B · South</text>
+            <rect x="217" y="340" width="86" height="9" rx="4" fill="#126568"/><text x="217" y="332" fill="#3f5553">Bus C · City</text>
+          </g>
+          <!-- demand marker + city (step 1) -->
+          <g data-step="1">
+            <use href="#ic-city" x="150" y="330" width="56" height="56"/>
+            <path d="M178,324 l-6,-10 l12,0 z" fill="#0b2528"/>
+            <text x="158" y="400" fill="#3f5553">demand</text>
+          </g>
+          <!-- resources (step 2) -->
+          <g data-step="2">
+            <use href="#ic-wind"  x="60"  y="104" width="54" height="54"/>
+            <use href="#ic-hydro" x="124" y="106" width="52" height="52"/>
+            <use href="#ic-solar" x="352" y="104" width="54" height="54"/>
+            <use href="#ic-gas"   x="416" y="106" width="52" height="52"/>
+            <use href="#ic-batt"  x="322" y="328" width="48" height="48"/>
+            <text x="322" y="392" class="sm" fill="#7a5cc0" font-size="11">storage</text>
+            <g stroke="#9db3af" stroke-width="1">
+              <line x1="87"  y1="158" x2="105" y2="176"/><line x1="150" y1="158" x2="125" y2="176"/>
+              <line x1="379" y1="158" x2="398" y2="176"/><line x1="442" y1="158" x2="418" y2="176"/>
+              <line x1="342" y1="376" x2="303" y2="346"/><line x1="205" y1="352" x2="217" y2="346"/>
+            </g>
+          </g>
+          <!-- transmission (step 3) -->
+          <g data-step="3">
+            <g stroke="#4a615e" fill="none" stroke-width="1.6">
+              <path d="M115,185 C150,246 210,304 256,340"/>
+              <path d="M405,185 C368,246 312,304 264,340"/>
+              <path d="M158,189 L362,189"/>
+            </g>
+            <use href="#ic-tower" x="168" y="236" width="30" height="30"/>
+            <use href="#ic-tower" x="320" y="236" width="30" height="30"/>
+            <g fill="#7a8a87">
+              <text x="96"  y="284">A–C · 500 MW</text>
+              <text x="314" y="284">B–C · 400 MW</text>
+              <text x="212" y="210">A–B · 300 MW</text>
+            </g>
+          </g>
+          <!-- least-cost flow sparks (step 5) -->
+          <g data-step="5">
+            <path class="flow" d="M115,185 C150,246 210,304 256,340" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round"/>
+            <path class="flow" d="M405,185 C368,246 312,304 264,340" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round" style="animation-delay:.5s"/>
+          </g>
+        </svg>
+      </div>
+
+      <!-- detail panel · swaps per step, separate from the canvas -->
+      <div class="detail" id="detail">
+        <div class="dpanel on" data-d="0 3">
+          <p class="dhead">What the icons mean</p>
+          <div class="leg-grid">
+            <span><svg><use href="#ic-wind"/></svg>Wind</span>
+            <span><svg><use href="#ic-solar"/></svg>Solar</span>
+            <span><svg><use href="#ic-hydro"/></svg>Hydro</span>
+            <span><svg><use href="#ic-gas"/></svg>Gas</span>
+            <span><svg><use href="#ic-batt"/></svg>Storage</span>
+            <span><svg><use href="#ic-city"/></svg>City / load</span>
+          </div>
+        </div>
+
+        <div class="dpanel" data-d="1">
+          <p class="dhead">City load · one day</p>
+          <svg viewBox="0 0 300 84" role="img" aria-label="daily load curve">
+            <path d="M8,74 L8,10 M8,74 L292,74" stroke="#c3d0cc" fill="none"/>
+            <path d="M8,64 C60,60 78,26 128,22 C182,18 196,50 232,44 C262,39 276,22 292,28" fill="none" stroke="#126568" stroke-width="2.4"/>
+            <text x="8" y="84" font-size="11" fill="#7a8a87">00:00</text><text x="255" y="84" font-size="11" fill="#7a8a87">24:00</text>
+          </svg>
+          <p class="dsub">Demand rises and falls hour to hour. This shape is what everything else in the model must meet.</p>
+        </div>
+
+        <div class="dpanel" data-d="2">
+          <p class="dhead">Each resource is a few numbers</p>
+          <div class="leg-grid">
+            <span><svg><use href="#ic-wind"/></svg>Wind</span>
+            <span><svg><use href="#ic-solar"/></svg>Solar</span>
+            <span><svg><use href="#ic-hydro"/></svg>Hydro</span>
+            <span><svg><use href="#ic-gas"/></svg>Gas</span>
+            <span><svg><use href="#ic-batt"/></svg>Storage</span>
+            <span><svg><use href="#ic-city"/></svg>City / load</span>
+          </div>
+          <p class="dsub">Capacity · cost · (for wind &amp; solar) an hourly <em>availability</em> profile.</p>
+        </div>
+
+        <div class="dpanel" data-d="4">
+          <p class="dhead">Written as a Linear Program (LP)</p>
+          <p class="dsub" style="margin:0 0 10px">One objective, a handful of linear rules — the whole model in a few lines:</p>
+          <div class="lp"><b>minimise</b>   Σ  costₘ · genₘ        <span style="color:#7a8a87">(total system cost)</span>
+<b>subject to</b>
+   Σ gen + imports = demand      <span style="color:#7a8a87">energy balance</span>
+   genₘ ≤ capacityₘ              <span style="color:#7a8a87">build limits</span>
+   flowₗ ≤ ratingₗ               <span style="color:#7a8a87">line limits</span>
+   0 ≤ socᵗ ≤ energyₘₐₓ          <span style="color:#7a8a87">storage</span></div>
+          <p class="dsub">The objective and every constraint are <em>straight lines</em> — no curves — so this is a <em>Linear Program</em>. A solver (HiGHS, CBC, Gurobi…) finds the exact least-cost answer, even with millions of variables.</p>
+        </div>
+
+        <div class="dpanel" data-d="5">
+          <p class="dhead">Solved · the cheapest plan that keeps the lights on</p>
+          <div class="solve-row">
+            <div class="mini">
+              <div class="t">Least-cost dispatch</div>
+              <svg viewBox="0 0 120 96" role="img" aria-label="dispatch stack">
+                <rect class="stackbar" x="30" y="70" width="34" height="18" fill="#2f7f86"/>
+                <rect class="stackbar" x="30" y="52" width="34" height="18" fill="#5f9e8f"/>
+                <rect class="stackbar" x="30" y="40" width="34" height="12" fill="#e2b93b"/>
+                <rect class="stackbar" x="30" y="30" width="34" height="10" fill="#b7743a"/>
+                <path d="M22,29 L72,29" stroke="#0b2528" stroke-width="1.6" stroke-dasharray="3 3"/>
+                <text x="78" y="34" font-size="11" fill="#7a8a87">= demand</text>
+              </svg>
+            </div>
+            <div class="mini dark">
+              <div class="t">Results</div>
+              <ul>
+                <li><i style="background:#5f9e8f"></i>System cost ↓</li>
+                <li><i style="background:#e2b93b"></i>Emissions ↓</li>
+                <li><i style="background:#d9ff77"></i>Build &amp; run plan</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+
+    <div class="steps" id="steps">
+      <div class="step" data-s="0"><div class="n">01</div><h3>Draw the system as a network of buses.</h3><p>Reduce a whole region to a few <em>buses</em> — points where power is injected or withdrawn. Here, three: a generation-rich North, a South, and a City where demand sits.</p></div>
+      <div class="step" data-s="1"><div class="n">02</div><h3>Attach demand.</h3><p>The City draws power following a daily <em>load profile</em>. Demand is what the whole system exists to serve, so it anchors everything — the panel shows the shape it must meet.</p></div>
+      <div class="step" data-s="2"><div class="n">03</div><h3>Place the resources.</h3><p>Wind and hydro at the North bus; solar and gas at the South; a battery near the City. Each is just a short list of numbers: capacity, cost, and — for wind and solar — an availability profile.</p></div>
+      <div class="step" data-s="3"><div class="n">04</div><h3>Wire the buses together.</h3><p>Transmission corridors link the buses, each with a limited MW rating. Cheap Northern power only helps the City if a line can carry it — so topology shapes what the model can do.</p></div>
+      <div class="step" data-s="4"><div class="n">05</div><h3>Turn the question into a maths problem.</h3><p>Now the crucial step most explainers skip: we write the whole thing as a <em>Linear Program</em> (LP). The unknowns are how much each unit generates and how much flows on each line; the goal is to minimise total cost; the rules — balance, capacity, line limits, storage — are all linear. Because everything is linear, an LP <em>solver</em> can find the exact cheapest solution, fast.</p></div>
+      <div class="step" data-s="5"><div class="n">06</div><h3>Solve for least-cost flow.</h3><p>Hand the LP to the solver and it returns the cheapest feasible dispatch — power flows along the lines, storage charges and discharges — plus the answers: system cost, emissions, and a build-and-run plan. Change a line limit or a fuel price and it all rearranges. That is the point: a model is a place to ask <em>what if</em>.</p><p class="caption">You just built and solved a three-bus energy model.</p></div>
+    </div>
+  </div>
+</div></section>
+
+<div class="divider"></div>
+
+<!-- ===================== PART B ===================== -->
+<section><div class="wrap">
+  <span class="part-tag">Part B · real world ↔ model world</span>
+  <h2>The same grid, told <em>two ways.</em></h2>
+  <p class="lead">A model is a deliberate abstraction. On the left is the world as it is; on the right, the world as the optimiser sees it — every physical asset collapsed into a node, an edge, and a short list of numbers.</p>
+
+  <div class="map2">
+    <div class="mcard">
+      <h3><span class="dot" style="background:#5f9e8f"></span>Real world</h3>
+      <svg viewBox="0 0 460 280" role="img" aria-label="A real landscape with wind, hydro, solar, gas and a city">
+        <rect x="0" y="0" width="460" height="280" fill="#eaf3ec"/>
+        <path d="M0,196 C110,160 190,196 260,176 C340,152 400,186 460,166 L460,280 L0,280 Z" fill="#cfe4e0"/>
+        <path d="M0,232 C150,208 320,244 460,220 L460,280 L0,280 Z" fill="#bcd6cf"/>
+        <use href="#ic-hydro" x="24"  y="150" width="78" height="78"/>
+        <use href="#ic-wind"  x="110" y="132" width="78" height="78"/>
+        <use href="#ic-city"  x="196" y="176" width="92" height="92"/>
+        <use href="#ic-solar" x="300" y="150" width="78" height="78"/>
+        <use href="#ic-gas"   x="380" y="148" width="78" height="78"/>
+        <use href="#ic-tower" x="150" y="206" width="40" height="40"/>
+        <use href="#ic-tower" x="286" y="206" width="40" height="40"/>
+        <g stroke="#4a615e" stroke-width="1.3">
+          <line x1="176" y1="224" x2="212" y2="238"/><line x1="272" y1="238" x2="308" y2="224"/>
+        </g>
+      </svg>
+      <p>Turbines, a dam, panels, a plant, wires, a city — messy, physical, continuous.</p>
+    </div>
+
+    <div class="mcard">
+      <h3><span class="dot" style="background:#126568"></span>Model world</h3>
+      <svg viewBox="0 0 460 280" role="img" aria-label="The same system as a graph of buses and edges">
+        <g stroke="#4a615e" stroke-width="1.8" fill="none">
+          <line x1="100" y1="110" x2="230" y2="210"/><line x1="360" y1="110" x2="230" y2="210"/><line x1="100" y1="110" x2="360" y2="110"/>
+        </g>
+        <g fill="#7a8a87">
+          <text x="118" y="172">500 MW</text><text x="286" y="172">400 MW</text><text x="196" y="96">300 MW</text>
+        </g>
+        <use href="#ic-wind"  x="56"  y="34" width="40" height="40"/><use href="#ic-hydro" x="98"  y="32" width="40" height="40"/>
+        <circle cx="100" cy="110" r="27" fill="#fff" stroke="#126568" stroke-width="2.4"/>
+        <text x="100" y="116" font-size="17" fill="#126568" text-anchor="middle" font-weight="bold">A</text>
+        <use href="#ic-solar" x="318" y="34" width="40" height="40"/><use href="#ic-gas" x="360" y="32" width="40" height="40"/>
+        <circle cx="360" cy="110" r="27" fill="#fff" stroke="#126568" stroke-width="2.4"/>
+        <text x="360" y="116" font-size="17" fill="#126568" text-anchor="middle" font-weight="bold">B</text>
+        <circle cx="230" cy="210" r="27" fill="#0b2528" stroke="#126568" stroke-width="2.4"/>
+        <text x="230" y="216" font-size="17" fill="#d9ff77" text-anchor="middle" font-weight="bold">C</text>
+        <use href="#ic-city" x="240" y="212" width="42" height="42"/><use href="#ic-batt" x="180" y="218" width="36" height="36"/>
+        <path d="M230,246 l-7,-11 l14,0 z" fill="#0b2528"/><text x="214" y="270" fill="#7a8a87">load</text>
+      </svg>
+      <p>Three buses, three edges, a handful of numbers. Solvable, testable, reproducible.</p>
+    </div>
+  </div>
+
+  <div class="maplist">
+    <div class="maprow"><span class="real"><svg><use href="#ic-wind"/></svg><svg><use href="#ic-solar"/></svg>Wind / solar farm</span><span class="arrow">→</span><span class="modeltxt">a generator with <code>capacity</code>, <code>cost</code>, and a time-varying <code>availability</code> profile</span></div>
+    <div class="maprow"><span class="real"><svg><use href="#ic-hydro"/></svg><svg><use href="#ic-gas"/></svg>Hydro / gas plant</span><span class="arrow">→</span><span class="modeltxt">a dispatchable generator with <code>capacity</code>, <code>fuel cost</code>, <code>ramp</code> and emission factors</span></div>
+    <div class="maprow"><span class="real"><svg><use href="#ic-city"/></svg>A city / region</span><span class="arrow">→</span><span class="modeltxt">a demand node with an hourly <code>load</code> profile</span></div>
+    <div class="maprow"><span class="real"><svg><use href="#ic-tower"/></svg>A transmission line</span><span class="arrow">→</span><span class="modeltxt">an edge with a <code>capacity (MW)</code> and losses</span></div>
+    <div class="maprow"><span class="real"><svg><use href="#ic-batt"/></svg>A battery</span><span class="arrow">→</span><span class="modeltxt">a storage node with <code>energy (MWh)</code>, <code>power (MW)</code> and round-trip <code>efficiency</code></span></div>
+  </div>
+  <p class="caption">The skill of modelling is choosing which of these numbers matter for the question — and which real-world detail you can safely throw away.</p>
+</div></section>
+
+<div class="divider"></div>
+
+<!-- ===================== PART C ===================== -->
+<section><div class="wrap">
+  <span class="part-tag">Part C · the distinction that matters</span>
+  <h2>Capacity-expansion <em>vs.</em> operational models</h2>
+  <p class="lead">Both are "energy models," but they answer different questions on different clocks. Confusing them is the most common mistake newcomers make.</p>
+
+  <div class="compare">
+    <div class="ccard cardA">
+      <div class="cardhead"><span class="pill pillA">Capacity expansion</span></div>
+      <h3>What should we <em>build</em>?</h3>
+      <p>Plans investment over decades: which technologies to build, when, and when to retire — minimising total investment plus operating cost across the whole horizon.</p>
+      <svg class="cmp-svg" viewBox="0 0 380 176" role="img" aria-label="New capacity added across years, 2035 highlighted">
+        <line x1="34" y1="140" x2="360" y2="140" stroke="#c3d0cc"/>
+        <text x="30" y="158" fill="#7a8a87">2025</text><text x="176" y="158" fill="#126568" font-weight="bold">2035</text><text x="330" y="158" fill="#7a8a87">2050</text>
+        <text x="20" y="30" fill="#7a8a87" transform="rotate(-90 20,30)">installed capacity</text>
+        <!-- highlight the transitional year 2035 -->
+        <rect x="189" y="24" width="44" height="116" fill="rgba(18,101,104,.08)" stroke="#126568" stroke-width="1.2" stroke-dasharray="3 3" rx="3"/>
+        <text x="176" y="20" fill="#126568" font-weight="bold">▼ pick one year</text>
+        <g>
+          <rect x="44"  y="112" width="34" height="28" fill="#2f7f86"/>
+          <rect x="94"  y="98"  width="34" height="42" fill="#2f7f86"/><rect x="94" y="86" width="34" height="12" fill="#5f9e8f"/>
+          <rect x="194" y="90"  width="34" height="50" fill="#2f7f86"/><rect x="194" y="66" width="34" height="24" fill="#5f9e8f"/><rect x="194" y="56" width="34" height="10" fill="#e2b93b"/>
+          <rect x="256" y="86"  width="34" height="54" fill="#2f7f86"/><rect x="256" y="54" width="34" height="32" fill="#5f9e8f"/><rect x="256" y="40" width="34" height="14" fill="#e2b93b"/><rect x="256" y="30" width="34" height="10" fill="#7a5cc0"/>
+          <rect x="316" y="82"  width="34" height="58" fill="#2f7f86"/><rect x="316" y="40" width="34" height="42" fill="#5f9e8f"/><rect x="316" y="20" width="34" height="20" fill="#e2b93b"/><rect x="316" y="8"  width="34" height="12" fill="#7a5cc0"/>
+        </g>
+      </svg>
+      <div class="legendrow">
+        <span><i class="sw" style="background:#2f7f86"></i>hydro</span><span><i class="sw" style="background:#5f9e8f"></i>wind</span><span><i class="sw" style="background:#e2b93b"></i>solar</span><span><i class="sw" style="background:#7a5cc0"></i>storage</span>
+      </div>
+    </div>
+
+    <div class="ccard cardB">
+      <div class="cardhead"><span class="pill pillB">Operational · dispatch</span></div>
+      <h3>How should we <em>run</em> it?</h3>
+      <p>Takes the fleet as fixed and decides, hour by hour, which plants run — respecting start-up limits, ramp rates, reserves and storage cycling.</p>
+      <svg class="cmp-svg" viewBox="0 0 380 176" role="img" aria-label="Hourly dispatch across one representative day of a year">
+        <text x="34" y="18" fill="#b7743a" font-weight="bold">one year = 8,760 hours (one day shown)</text>
+        <line x1="34" y1="140" x2="360" y2="140" stroke="#c3d0cc"/>
+        <text x="30" y="158" fill="#7a8a87">00:00</text><text x="176" y="158" fill="#7a8a87">12:00</text><text x="330" y="158" fill="#7a8a87">24:00</text>
+        <text x="20" y="30" fill="#7a8a87" transform="rotate(-90 20,30)">generation</text>
+        <path d="M40,140 L40,120 L100,116 L160,104 L220,108 L280,118 L340,122 L340,140 Z" fill="#2f7f86"/>
+        <path d="M40,120 L100,116 L160,104 L220,108 L280,118 L340,122 L340,112 L280,104 L220,86 L160,80 L100,96 L40,104 Z" fill="#5f9e8f" opacity=".9"/>
+        <path d="M40,104 L100,96 L160,80 L220,86 L280,104 L340,112 L340,96 L280,88 L220,58 L160,52 L100,80 L40,96 Z" fill="#e2b93b" opacity=".85"/>
+        <path d="M40,96 L100,80 L160,52 L220,58 L280,88 L340,96 L340,78 L280,70 L220,44 L160,40 L100,66 L40,84 Z" fill="#b7743a" opacity=".8"/>
+        <path d="M40,82 C100,64 130,46 160,44 C210,40 250,66 280,70 C310,74 330,78 340,78" fill="none" stroke="#0b2528" stroke-width="2"/>
+        <line class="sweep" x1="40" y1="30" x2="40" y2="140" stroke="#0b2528" stroke-width="1.4" stroke-dasharray="3 3">
+          <animate attributeName="x1" values="40;340;40" dur="6s" repeatCount="indefinite"/><animate attributeName="x2" values="40;340;40" dur="6s" repeatCount="indefinite"/>
+        </line>
+      </svg>
+      <div class="legendrow">
+        <span><i class="sw" style="background:#b7743a"></i>gas</span><span><i class="sw" style="background:#0b2528"></i>demand</span><span>← the sweeping line is the hour being solved</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- dissection banner: one planning year -> 8,760 hours -->
+  <div class="zoom">
+    <svg viewBox="0 0 900 96" role="img" aria-label="One planning year dissected into 8760 hourly steps">
+      <!-- the picked year block -->
+      <g>
+        <rect x="20" y="26" width="40" height="52" fill="#2f7f86"/><rect x="20" y="16" width="40" height="10" fill="#5f9e8f"/>
+        <text x="8" y="92" font-size="12" fill="#126568" font-weight="bold">2035 plan</text>
+      </g>
+      <!-- fan-out lines -->
+      <g stroke="#b7743a" stroke-width="1">
+        <line x1="64" y1="46" x2="150" y2="20"/><line x1="64" y1="46" x2="150" y2="72"/>
+      </g>
+      <text x="150" y="14" font-size="12" fill="#b7743a" font-weight="bold">dissected into 8,760 hourly steps →</text>
+      <!-- dense hourly ticks -->
+      <g stroke="#4a615e" stroke-width="1">
+        <!-- generated tick field -->
+        <line x1="150" y1="72" x2="884" y2="72"/>
+      </g>
+      <g id="ticks" stroke="#8aa39d" stroke-width="1"></g>
+      <path d="M150,60 C330,40 520,66 884,44" fill="none" stroke="#0b2528" stroke-width="1.6"/>
+    </svg>
+    <p>Capacity expansion plans all the way to 2050 in a handful of coarse slices. Pick a single <b>transitional year</b> — here 2035 — and the operational model dissects it into <b>8,760 hourly steps</b> to check whether the plan can actually be run, hour by hour.</p>
+  </div>
+
+  <table>
+    <thead><tr><th>Dimension</th><th>Capacity expansion</th><th>Operational / dispatch</th></tr></thead>
+    <tbody>
+      <tr><td>Question</td><td>What and when to build (and retire)?</td><td>How to run the existing fleet right now?</td></tr>
+      <tr><td>Time horizon</td><td>Years to decades (e.g. 2025–2050)</td><td>Hours to a year, solved chronologically</td></tr>
+      <tr><td>Time resolution</td><td>Coarse — representative time-slices or typical days</td><td>Fine — hourly or sub-hourly (8,760 h/yr)</td></tr>
+      <tr><td>Capacity</td><td>A decision variable — the model chooses it</td><td>Fixed input — given by the plan</td></tr>
+      <tr><td>Key detail kept</td><td>Investment economics, long-run trade-offs</td><td>Unit commitment, ramping, reserves, storage state</td></tr>
+      <tr><td>Typical tools</td><td>OSeMOSYS, TIMES, GenX, PyPSA*</td><td>Production-cost / UC models, PLEXOS, PyPSA*</td></tr>
+      <tr><td>Output</td><td>An investment pathway</td><td>An operating schedule &amp; reliability check</td></tr>
+    </tbody>
+  </table>
+  <p class="caption">*Some frameworks (e.g. PyPSA) can be configured for either role — the distinction is the question and resolution, not always the software.</p>
+
+  <div class="why">
+    <h3>So why bother linking the two?</h3>
+    <svg class="why-svg" viewBox="0 0 900 300" role="img" aria-label="Capacity-expansion and operational models exchanging results in a loop until they agree">
+      <rect x="34" y="60" width="290" height="180" rx="14" fill="#fff" stroke="rgba(11,37,40,.15)"/>
+      <rect x="34" y="60" width="290" height="6" rx="3" fill="#126568"/>
+      <rect x="52" y="84" width="182" height="24" rx="12" fill="#126568"/>
+      <text x="63" y="101" font-size="12" fill="#fff" letter-spacing="1">CAPACITY EXPANSION</text>
+      <text x="52" y="142" font-size="21" fill="#0b2528" font-weight="bold">What to build?</text>
+      <g>
+        <rect x="52" y="196" width="16" height="24" fill="#2f7f86"/>
+        <rect x="74" y="182" width="16" height="38" fill="#2f7f86"/><rect x="74" y="176" width="16" height="6" fill="#5f9e8f"/>
+        <rect x="96" y="168" width="16" height="52" fill="#2f7f86"/><rect x="96" y="158" width="16" height="10" fill="#5f9e8f"/>
+        <rect x="118" y="156" width="16" height="64" fill="#2f7f86"/><rect x="118" y="144" width="16" height="12" fill="#5f9e8f"/>
+      </g>
+      <text x="150" y="200" font-size="13" fill="#7a8a87">decades,</text>
+      <text x="150" y="218" font-size="13" fill="#7a8a87">coarse slices</text>
+
+      <rect x="576" y="60" width="290" height="180" rx="14" fill="#fff" stroke="rgba(11,37,40,.15)"/>
+      <rect x="576" y="60" width="290" height="6" rx="3" fill="#b7743a"/>
+      <rect x="594" y="84" width="138" height="24" rx="12" fill="#b7743a"/>
+      <text x="605" y="101" font-size="12" fill="#fff" letter-spacing="1">OPERATIONAL</text>
+      <text x="594" y="142" font-size="21" fill="#0b2528" font-weight="bold">Can we run it?</text>
+      <path d="M594,198 L610,182 L626,202 L642,178 L658,200 L674,184 L690,204 L706,186 L722,198" fill="none" stroke="#b7743a" stroke-width="2.4"/>
+      <text x="732" y="192" font-size="13" fill="#7a8a87">8,760 h,</text>
+      <text x="732" y="210" font-size="13" fill="#7a8a87">hour by hour</text>
+
+      <path d="M326,116 C410,74 490,74 574,116" fill="none" stroke="#cbd6d2" stroke-width="2.4"/>
+      <path class="flow" d="M326,116 C410,74 490,74 574,116" fill="none" stroke="#126568" stroke-width="3" stroke-linecap="round"/>
+      <path d="M574,116 l-13,-5 l4,11 z" fill="#126568"/>
+      <text x="450" y="70" font-size="14" fill="#126568" text-anchor="middle" font-weight="bold">① build the fleet →</text>
+
+      <path d="M574,186 C490,228 410,228 326,186" fill="none" stroke="#e6cdb8" stroke-width="2.4"/>
+      <path class="flow" d="M574,186 C490,228 410,228 326,186" fill="none" stroke="#b7743a" stroke-width="3" stroke-linecap="round" style="animation-delay:.6s"/>
+      <path d="M326,186 l13,-5 l-4,11 z" fill="#b7743a"/>
+      <text x="450" y="246" font-size="14" fill="#b7743a" text-anchor="middle" font-weight="bold">← ② feed back what breaks</text>
+
+      <circle cx="450" cy="151" r="28" fill="#0b2528"/>
+      <text x="450" y="159" font-size="24" fill="#d9ff77" text-anchor="middle" font-weight="bold">⇄</text>
+      <text x="450" y="292" font-size="14" fill="#425856" text-anchor="middle" font-weight="bold">iterate until the two agree</text>
+    </svg>
+    <p>Here's the catch. To plan decades ahead, the capacity-expansion model has to squeeze a whole year into a few representative slices — otherwise it would be extremely difficult and slow to solve. But that shortcut quietly flatters the plan: it hides the awkward hours, the fast ramps, the reserve shortfalls, the days when storage runs dry. So a build-out that looks beautifully cheap on the planning spreadsheet can turn out to be a nightmare to actually operate.</p>
+    <p>The way out is to make the two models talk to each other: build the fleet with the expansion model, then stress-test that exact fleet in a high-resolution operational model across all 8,760 hours, and feed what breaks back into the next planning run. Do that well and you get a plan that is both affordable <em>and</em> keeps the lights on.</p>
+    <p class="me">That coupling — long-term investment on one side, hour-by-hour operational reality on the other — is <strong>exactly the problem I work on</strong>. I'm exploring the tools that let these two models actually talk to each other, and setting the rules that make their results agree rather than contradict. It's harder (and more interesting) than either model alone.</p>
+  </div>
+</div></section>
+
+<footer>
+  <strong>An energy model is a place to ask "what if."</strong><br>
+  <span style="opacity:.7">Schematic explainer · standalone sample · figures illustrative, not measured data</span>
+</footer>
+
+<script>
+(function(){
+  // dense hourly ticks for the dissection banner
+  var t=document.getElementById('ticks');
+  if(t){ var s='';
+    for(var x=150;x<=884;x+=6){ var h=8+Math.random()*20; s+='<line x1="'+x+'" y1="72" x2="'+x+'" y2="'+(72-h).toFixed(0)+'"/>'; }
+    t.innerHTML=s;
+  }
+
+  var scene=document.getElementById('scene'); if(!scene) return;
+  var layers=[].slice.call(scene.querySelectorAll('[data-step]'));
+  var bars=[].slice.call(document.querySelectorAll('#detail .stackbar'));
+  var panels=[].slice.call(document.querySelectorAll('#detail .dpanel'));
+  var steps=[].slice.call(document.querySelectorAll('#steps .step'));
+
+  function inList(list,n){ return (' '+list+' ').indexOf(' '+n+' ')>-1; }
+
+  function setStep(n){
+    layers.forEach(function(l){ l.classList.toggle('on',(+l.dataset.step)<=n); });
+    panels.forEach(function(p){ p.classList.toggle('on', inList(p.dataset.d, n)); });
+    bars.forEach(function(b){ b.classList.toggle('on', n===5); });
+    steps.forEach(function(s){ var on=(+s.dataset.s)===n; s.classList.toggle('on',on); s.classList.toggle('dim',!on); });
+  }
+  if(!('IntersectionObserver' in window)){ setStep(5); return; }
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) setStep(+e.target.dataset.s); }); },
+    {rootMargin:'-45% 0px -45% 0px',threshold:0});
+  steps.forEach(function(s){ io.observe(s); });
+  setStep(0);
+})();
+</script>
+</body>
+</html>
