@@ -14,33 +14,8 @@
 #learn .part-tag{display:inline-block;margin-bottom:22px;padding:7px 14px;border:1px solid var(--line);
   border-radius:20px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
 
-/* scrollytelling */
-#learn .scrolly{display:grid;grid-template-columns:1.1fr .9fr;gap:4vw;align-items:start}
-#learn .scene-col{position:sticky;top:86px;height:calc(100vh - 86px);display:flex;align-items:center;padding:0}
-/* card is capped to the viewport; the SVG scales to fill whatever the detail panel leaves,
-   so every step's illustration + panel stays fully on-screen while scrolling */
-#learn .scene-card{width:100%;max-height:calc(100vh - 104px);display:flex;flex-direction:column;
-  background:linear-gradient(160deg,#fff,#eef4ef);border:1px solid var(--line);
-  border-radius:12px;padding:20px;box-shadow:0 24px 60px rgba(11,37,40,.10);overflow:hidden}
-#learn .scene{flex:1 1 auto;min-height:0;display:flex;align-items:center;justify-content:center}
-#learn .scene svg{width:100%;height:auto;max-height:100%;display:block;margin:auto}
-#learn .scene svg text{font-size:12.5px}
-#learn .scene svg text[font-family="monospace"]{font-size:13px}
-
-/* opaque card so the panel is clearly separated from the schematic above (no overlap bleed) */
-#learn .detail{flex:0 0 auto;margin-top:14px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-#learn .detail svg{max-height:120px}
+/* step-06 dispatch mini chart */
 #learn .mini svg{max-width:150px;height:auto;margin:0 auto;display:block}
-#learn .dpanel[data-d="1"] svg{max-width:340px}
-#learn .dpanel{display:none}
-#learn .dpanel.on{display:block;animation:learnfade .4s ease}
-@keyframes learnfade{from{opacity:0;transform:translateY(6px)}}
-#learn .dhead{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:bold;margin-bottom:10px}
-#learn .dsub{font-size:14px;color:#546966;margin-top:10px;line-height:1.55}
-#learn .dsub em{color:var(--teal);font-style:normal;font-weight:bold}
-#learn .leg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-#learn .leg-grid span{display:flex;align-items:center;gap:9px;font-size:14px;color:#425856}
-#learn .leg-grid svg{width:30px;height:30px;flex:0 0 30px}
 #learn .lp{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.75;color:#26403e;
   background:#eef4f1;border:1px solid var(--line);border-radius:8px;padding:14px 16px;white-space:pre-wrap}
 #learn .lp b{color:var(--teal)}
@@ -54,19 +29,7 @@
 #learn .mini li{font-size:14px;display:flex;align-items:center;gap:8px;padding:4px 0}
 #learn .mini li i{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
 
-#learn .steps{padding:20vh 0}
-#learn .step{min-height:84vh;display:flex;flex-direction:column;justify-content:center}
-#learn .step .n{font:700 clamp(34px,3.6vw,52px)/1 Georgia,serif;color:#b7c2bf;margin-bottom:6px}
-#learn .step.dim{opacity:.34;transition:opacity .4s}
-#learn .step.on{opacity:1}
-#learn .step p{font-size:18.5px;line-height:1.66}
-#learn .step h3{font-size:24px}
 #learn .caption{margin-top:16px;font-size:14px;color:#7a8a87;font-style:italic}
-
-#learn .stackbar{transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-#learn .stackbar.on{transform:scaleY(1)}
-#learn [data-step]{opacity:0;transform:translateY(7px);transition:opacity .55s ease,transform .55s ease}
-#learn [data-step].on{opacity:1;transform:none}
 #learn .flow{stroke-dasharray:2 11;animation:learndash 2.2s linear infinite}
 @keyframes learndash{to{stroke-dashoffset:-130}}
 /* global (not #learn-scoped): must reach inside <use> shadow content */
@@ -124,13 +87,6 @@
 #learn .sw{width:12px;height:12px;border-radius:3px;display:inline-block}
 
 @media(max-width:860px){
-  #learn .scrolly{grid-template-columns:1fr}
-  #learn .scene-col{position:sticky;top:82px;height:auto;padding:8px 0;background:rgba(246,243,234,.92);z-index:4}
-  #learn .scene-card{padding:14px;max-height:60vh}
-  #learn .detail svg{max-height:96px}
-  #learn .steps{padding:2vh 0}
-  #learn .step{min-height:0;padding:22px 0;opacity:1}
-  #learn .step.dim{opacity:1}
   #learn .map2,#learn .compare{grid-template-columns:1fr}
   #learn .maprow{grid-template-columns:auto 1fr;gap:12px}
   #learn .maprow .arrow{display:none}
@@ -138,6 +94,28 @@
   #learn td:first-child{width:34%}
 }
 @media(prefers-reduced-motion:reduce){
-  #learn [data-step],#learn .stackbar,#learn .dpanel.on{transition:none;animation:none;opacity:1;transform:none}
   #learn .flow,#learn .spin,#learn .sweep{animation:none}
 }
+
+/* ===== Part A · robust non-sticky layout (cannot overlap on any screen) ===== */
+#learn .netfig{max-width:760px;margin:8px auto 30px;background:linear-gradient(160deg,#fff,#eef4ef);
+  border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 24px 60px rgba(11,37,40,.10)}
+#learn .netfig svg{width:100%;height:auto;max-height:66vh;display:block;margin:auto}
+#learn .netfig svg text{font-size:12.5px}
+#learn .netfig svg text[font-family="monospace"]{font-size:13px}
+#learn .netfig figcaption{margin-top:12px;text-align:center;font-size:13.5px;color:#7a8a87;font-style:italic}
+#learn .stepgrid{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+#learn .stepcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;
+  display:flex;flex-direction:column;box-shadow:0 14px 36px rgba(11,37,40,.06)}
+#learn .stepcard .n{font:700 clamp(30px,3vw,44px)/1 Georgia,serif;color:#b7c2bf;margin-bottom:2px}
+#learn .stepcard h3{font-size:21px;margin:0 0 8px}
+#learn .stepcard>p{font-size:16.5px;line-height:1.62;margin:0}
+#learn .stepfig{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+#learn .stepfig svg{width:100%;height:auto;max-height:158px;display:block;margin:auto}
+#learn .stepfig svg text{font-size:12px}
+/* reveal-on-scroll: only hides once JS marks the root, so no-JS still shows everything */
+#learn .reveal{transition:opacity .6s ease,transform .6s ease}
+#learn.reveal-on .reveal{opacity:0;transform:translateY(14px)}
+#learn.reveal-on .reveal.in{opacity:1;transform:none}
+@media(max-width:760px){#learn .stepgrid{grid-template-columns:1fr}#learn .netfig svg{max-height:none}}
+@media(prefers-reduced-motion:reduce){#learn.reveal-on .reveal{opacity:1;transform:none;transition:none}}

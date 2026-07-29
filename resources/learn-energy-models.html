@@ -29,29 +29,8 @@
   .part-tag{display:inline-block;margin-bottom:22px;padding:7px 14px;border:1px solid var(--line);
             border-radius:20px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--teal)}
 
-  /* ---------- Scrollytelling ---------- */
-  .scrolly{display:grid;grid-template-columns:1.1fr .9fr;gap:4vw;align-items:start}
-  .scene-col{position:sticky;top:0;min-height:100vh;display:flex;align-items:center;padding:3vh 0}
-  .scene-card{width:100%;background:linear-gradient(160deg,#fff,#eef4ef);border:1px solid var(--line);
-              border-radius:12px;padding:26px;box-shadow:0 24px 60px rgba(11,37,40,.10)}
-  .scene svg{width:100%;height:auto;display:block}
-  .scene svg text{font-size:12.5px}
-  .scene svg text[font-family="monospace"]{font-size:13px}
-
-  /* detail panel — separate from the canvas, swaps per step */
-  .detail{margin-top:18px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px 16px}
-  .detail svg{max-height:130px}
+  /* step-06 dispatch mini chart */
   .mini svg{max-width:150px;height:auto;margin:0 auto;display:block}
-  .dpanel[data-d="1"] svg{max-width:340px}
-  .dpanel{display:none}
-  .dpanel.on{display:block;animation:fade .4s ease}
-  @keyframes fade{from{opacity:0;transform:translateY(6px)}}
-  .dhead{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:bold;margin-bottom:10px}
-  .dsub{font-size:14px;color:#546966;margin-top:10px}
-  .dsub em{color:var(--teal);font-style:normal;font-weight:bold}
-  .leg-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .leg-grid span{display:flex;align-items:center;gap:9px;font-size:14px;color:#425856}
-  .leg-grid svg{width:30px;height:30px;flex:0 0 30px}
   .lp{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14.5px;line-height:1.75;color:#26403e;
       background:#eef4f1;border:1px solid var(--line);border-radius:8px;padding:14px 16px;white-space:pre-wrap}
   .lp b{color:var(--teal)}
@@ -65,18 +44,7 @@
   .mini li{font-size:14px;display:flex;align-items:center;gap:8px;padding:4px 0}
   .mini li i{width:9px;height:9px;border-radius:50%;flex:0 0 9px}
 
-  .steps{padding:24vh 0}
-  .step{min-height:84vh;display:flex;flex-direction:column;justify-content:center}
-  .step .n{font:700 clamp(34px,3.6vw,52px)/1 Georgia,serif;color:#b7c2bf;margin-bottom:6px}
-  .step.dim{opacity:.34;transition:opacity .4s}
-  .step.on{opacity:1}
-  .step p{font-size:18.5px;line-height:1.66}
   .caption{margin-top:16px;font-size:14px;color:#7a8a87;font-style:italic}
-
-  .stackbar{transform:scaleY(0);transform-origin:bottom;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
-  .stackbar.on{transform:scaleY(1)}
-  [data-step]{opacity:0;transform:translateY(7px);transition:opacity .55s ease,transform .55s ease}
-  [data-step].on{opacity:1;transform:none}
   .flow{stroke-dasharray:2 11;animation:dash 2.2s linear infinite}
   @keyframes dash{to{stroke-dashoffset:-130}}
   .spin{transform-box:fill-box;transform-origin:center;animation:spin 9s linear infinite}
@@ -134,13 +102,27 @@
   footer{background:var(--ink);color:#b8c8c5;padding:34px 6vw;font-size:13px;text-align:center}
   footer strong{color:#fff;font:17px Georgia,serif}
 
+  /* Part A · robust non-sticky layout (cannot overlap on any screen) */
+  .netfig{max-width:760px;margin:8px auto 30px;background:linear-gradient(160deg,#fff,#eef4ef);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 24px 60px rgba(11,37,40,.10)}
+  .netfig svg{width:100%;height:auto;max-height:66vh;display:block;margin:auto}
+  .netfig svg text{font-size:12.5px}
+  .netfig svg text[font-family="monospace"]{font-size:13px}
+  .netfig figcaption{margin-top:12px;text-align:center;font-size:13.5px;color:#7a8a87;font-style:italic}
+  .stepgrid{list-style:none;margin:24px 0 0;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+  .stepcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px;display:flex;flex-direction:column;box-shadow:0 14px 36px rgba(11,37,40,.06)}
+  .stepcard .n{font:700 clamp(30px,3vw,44px)/1 Georgia,serif;color:#b7c2bf;margin-bottom:2px}
+  .stepcard h3{font-size:21px;margin:0 0 8px}
+  .stepcard>p{font-size:16.5px;line-height:1.62;margin:0}
+  .stepfig{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}
+  .stepfig svg{width:100%;height:auto;max-height:158px;display:block;margin:auto}
+  .stepfig svg text{font-size:12px}
+  .reveal{transition:opacity .6s ease,transform .6s ease}
+  body.reveal-on .reveal{opacity:0;transform:translateY(14px)}
+  body.reveal-on .reveal.in{opacity:1;transform:none}
+  @media(max-width:760px){.stepgrid{grid-template-columns:1fr}.netfig svg{max-height:none}}
+  @media(prefers-reduced-motion:reduce){body.reveal-on .reveal{opacity:1;transform:none;transition:none}}
+
   @media(max-width:860px){
-    .scrolly{grid-template-columns:1fr}
-    .scene-col{position:sticky;top:0;min-height:auto;padding:12px 0;background:var(--paper);z-index:5}
-    .scene-card{padding:16px}
-    .steps{padding:2vh 0}
-    .step{min-height:0;padding:24px 0;opacity:1}
-    .step.dim{opacity:1}
     .map2,.compare{grid-template-columns:1fr}
     .maprow{grid-template-columns:auto 1fr;gap:12px}
     .maprow .arrow{display:none}
@@ -148,7 +130,6 @@
     td:first-child{width:34%}
   }
   @media(prefers-reduced-motion:reduce){
-    [data-step],.stackbar,.dpanel.on{transition:none;animation:none;opacity:1;transform:none}
     .flow,.spin,.sweep{animation:none}
   }
 </style>
@@ -211,147 +192,95 @@
 <!-- ===================== PART A ===================== -->
 <section><div class="wrap">
   <span class="part-tag">Part A · building a toy network</span>
-  <div class="scrolly">
+  <h2>Build a toy network, <em>step by step.</em></h2>
+  <p class="lead">Here is the finished model — three buses, some generators, transmission and a city. Below, the same thing assembled one step at a time.</p>
 
-    <div class="scene-col"><div class="scene-card">
-      <div class="scene" id="scene">
-        <svg viewBox="0 0 520 430" role="img" aria-label="Three-bus toy energy network">
-          <!-- boundary + buses (step 0) -->
-          <g data-step="0" class="on">
-            <rect x="12" y="12" width="496" height="406" rx="14" fill="none" stroke="#126568" stroke-width="1.4" stroke-dasharray="6 6"/>
-            <text x="28" y="36" fill="#126568" font-family="monospace">toy_network</text>
-            <rect x="72"  y="176" width="86" height="9" rx="4" fill="#126568"/><text x="72"  y="168" fill="#3f5553">Bus A · North</text>
-            <rect x="362" y="176" width="86" height="9" rx="4" fill="#126568"/><text x="362" y="168" fill="#3f5553">Bus B · South</text>
-            <rect x="217" y="340" width="86" height="9" rx="4" fill="#126568"/><text x="217" y="332" fill="#3f5553">Bus C · City</text>
-          </g>
-          <!-- demand marker + city (step 1) -->
-          <g data-step="1">
-            <use href="#ic-city" x="150" y="330" width="56" height="56"/>
-            <path d="M178,324 l-6,-10 l12,0 z" fill="#0b2528"/>
-            <text x="158" y="400" fill="#3f5553">demand</text>
-          </g>
-          <!-- resources (step 2) -->
-          <g data-step="2">
-            <use href="#ic-wind"  x="60"  y="104" width="54" height="54"/>
-            <use href="#ic-hydro" x="124" y="106" width="52" height="52"/>
-            <use href="#ic-solar" x="352" y="104" width="54" height="54"/>
-            <use href="#ic-gas"   x="416" y="106" width="52" height="52"/>
-            <use href="#ic-batt"  x="322" y="328" width="48" height="48"/>
-            <text x="322" y="392" class="sm" fill="#7a5cc0" font-size="11">storage</text>
-            <g stroke="#9db3af" stroke-width="1">
-              <line x1="87"  y1="158" x2="105" y2="176"/><line x1="150" y1="158" x2="125" y2="176"/>
-              <line x1="379" y1="158" x2="398" y2="176"/><line x1="442" y1="158" x2="418" y2="176"/>
-              <line x1="342" y1="376" x2="303" y2="346"/><line x1="205" y1="352" x2="217" y2="346"/>
-            </g>
-          </g>
-          <!-- transmission (step 3) -->
-          <g data-step="3">
-            <g stroke="#4a615e" fill="none" stroke-width="1.6">
-              <path d="M115,185 C150,246 210,304 256,340"/>
-              <path d="M405,185 C368,246 312,304 264,340"/>
-              <path d="M158,189 L362,189"/>
-            </g>
-            <use href="#ic-tower" x="168" y="236" width="30" height="30"/>
-            <use href="#ic-tower" x="320" y="236" width="30" height="30"/>
-            <g fill="#7a8a87">
-              <text x="96"  y="284">A–C · 500 MW</text>
-              <text x="314" y="284">B–C · 400 MW</text>
-              <text x="212" y="210">A–B · 300 MW</text>
-            </g>
-          </g>
-          <!-- least-cost flow sparks (step 5) -->
-          <g data-step="5">
-            <path class="flow" d="M115,185 C150,246 210,304 256,340" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round"/>
-            <path class="flow" d="M405,185 C368,246 312,304 264,340" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round" style="animation-delay:.5s"/>
-          </g>
-        </svg>
-      </div>
+  <figure class="netfig reveal">
+    <svg viewBox="0 0 520 430" role="img" aria-label="The assembled three-bus toy network">
+      <rect x="12" y="12" width="496" height="406" rx="14" fill="none" stroke="#126568" stroke-width="1.4" stroke-dasharray="6 6"/>
+      <text x="28" y="36" fill="#126568" font-family="monospace">toy_network</text>
+      <rect x="72"  y="176" width="86" height="9" rx="4" fill="#126568"/><text x="72"  y="168" fill="#3f5553">Bus A · North</text>
+      <rect x="362" y="176" width="86" height="9" rx="4" fill="#126568"/><text x="362" y="168" fill="#3f5553">Bus B · South</text>
+      <rect x="217" y="340" width="86" height="9" rx="4" fill="#126568"/><text x="217" y="332" fill="#3f5553">Bus C · City</text>
+      <use href="#ic-city" x="150" y="330" width="56" height="56"/>
+      <path d="M178,324 l-6,-10 l12,0 z" fill="#0b2528"/>
+      <text x="158" y="400" fill="#3f5553">demand</text>
+      <use href="#ic-wind"  x="60"  y="104" width="54" height="54"/>
+      <use href="#ic-hydro" x="124" y="106" width="52" height="52"/>
+      <use href="#ic-solar" x="352" y="104" width="54" height="54"/>
+      <use href="#ic-gas"   x="416" y="106" width="52" height="52"/>
+      <use href="#ic-batt"  x="322" y="328" width="48" height="48"/>
+      <text x="322" y="392" fill="#7a5cc0" font-size="11">storage</text>
+      <g stroke="#9db3af" stroke-width="1">
+        <line x1="87"  y1="158" x2="105" y2="176"/><line x1="150" y1="158" x2="125" y2="176"/>
+        <line x1="379" y1="158" x2="398" y2="176"/><line x1="442" y1="158" x2="418" y2="176"/>
+        <line x1="342" y1="376" x2="303" y2="346"/><line x1="205" y1="352" x2="217" y2="346"/>
+      </g>
+      <g stroke="#4a615e" fill="none" stroke-width="1.6">
+        <path d="M115,185 C150,246 210,304 256,340"/>
+        <path d="M405,185 C368,246 312,304 264,340"/>
+        <path d="M158,189 L362,189"/>
+      </g>
+      <use href="#ic-tower" x="168" y="236" width="30" height="30"/>
+      <use href="#ic-tower" x="320" y="236" width="30" height="30"/>
+      <g fill="#7a8a87">
+        <text x="96"  y="284">A–C · 500 MW</text>
+        <text x="314" y="284">B–C · 400 MW</text>
+        <text x="212" y="210">A–B · 300 MW</text>
+      </g>
+      <path class="flow" d="M115,185 C150,246 210,304 256,340" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round"/>
+      <path class="flow" d="M405,185 C368,246 312,304 264,340" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round" style="animation-delay:.5s"/>
+    </svg>
+    <figcaption>The finished model. Below, how it's built — one step at a time.</figcaption>
+  </figure>
 
-      <!-- detail panel · swaps per step, separate from the canvas -->
-      <div class="detail" id="detail">
-        <div class="dpanel on" data-d="0 3">
-          <p class="dhead">What the icons mean</p>
-          <div class="leg-grid">
-            <span><svg><use href="#ic-wind"/></svg>Wind</span>
-            <span><svg><use href="#ic-solar"/></svg>Solar</span>
-            <span><svg><use href="#ic-hydro"/></svg>Hydro</span>
-            <span><svg><use href="#ic-gas"/></svg>Gas</span>
-            <span><svg><use href="#ic-batt"/></svg>Storage</span>
-            <span><svg><use href="#ic-city"/></svg>City / load</span>
-          </div>
-        </div>
-
-        <div class="dpanel" data-d="1">
-          <p class="dhead">City load · one day</p>
-          <svg viewBox="0 0 300 84" role="img" aria-label="daily load curve">
-            <path d="M8,74 L8,10 M8,74 L292,74" stroke="#c3d0cc" fill="none"/>
-            <path d="M8,64 C60,60 78,26 128,22 C182,18 196,50 232,44 C262,39 276,22 292,28" fill="none" stroke="#126568" stroke-width="2.4"/>
-            <text x="8" y="84" font-size="11" fill="#7a8a87">00:00</text><text x="255" y="84" font-size="11" fill="#7a8a87">24:00</text>
-          </svg>
-          <p class="dsub">Demand rises and falls hour to hour. This shape is what everything else in the model must meet.</p>
-        </div>
-
-        <div class="dpanel" data-d="2">
-          <p class="dhead">Each resource is a few numbers</p>
-          <div class="leg-grid">
-            <span><svg><use href="#ic-wind"/></svg>Wind</span>
-            <span><svg><use href="#ic-solar"/></svg>Solar</span>
-            <span><svg><use href="#ic-hydro"/></svg>Hydro</span>
-            <span><svg><use href="#ic-gas"/></svg>Gas</span>
-            <span><svg><use href="#ic-batt"/></svg>Storage</span>
-            <span><svg><use href="#ic-city"/></svg>City / load</span>
-          </div>
-          <p class="dsub">Capacity · cost · (for wind &amp; solar) an hourly <em>availability</em> profile.</p>
-        </div>
-
-        <div class="dpanel" data-d="4">
-          <p class="dhead">Written as a Linear Program (LP)</p>
-          <p class="dsub" style="margin:0 0 10px">One objective, a handful of linear rules — the whole model in a few lines:</p>
-          <div class="lp"><b>minimise</b>   Σ  costₘ · genₘ        <span style="color:#7a8a87">(total system cost)</span>
-<b>subject to</b>
-   Σ gen + imports = demand      <span style="color:#7a8a87">energy balance</span>
-   genₘ ≤ capacityₘ              <span style="color:#7a8a87">build limits</span>
-   flowₗ ≤ ratingₗ               <span style="color:#7a8a87">line limits</span>
-   0 ≤ socᵗ ≤ energyₘₐₓ          <span style="color:#7a8a87">storage</span></div>
-          <p class="dsub">The objective and every constraint are <em>straight lines</em> — no curves — so this is a <em>Linear Program</em>. A solver (HiGHS, CBC, Gurobi…) finds the exact least-cost answer, even with millions of variables.</p>
-        </div>
-
-        <div class="dpanel" data-d="5">
-          <p class="dhead">Solved · the cheapest plan that keeps the lights on</p>
-          <div class="solve-row">
-            <div class="mini">
-              <div class="t">Least-cost dispatch</div>
-              <svg viewBox="0 0 120 96" role="img" aria-label="dispatch stack">
-                <rect class="stackbar" x="30" y="70" width="34" height="18" fill="#2f7f86"/>
-                <rect class="stackbar" x="30" y="52" width="34" height="18" fill="#5f9e8f"/>
-                <rect class="stackbar" x="30" y="40" width="34" height="12" fill="#e2b93b"/>
-                <rect class="stackbar" x="30" y="30" width="34" height="10" fill="#b7743a"/>
-                <path d="M22,29 L72,29" stroke="#0b2528" stroke-width="1.6" stroke-dasharray="3 3"/>
-                <text x="78" y="34" font-size="11" fill="#7a8a87">= demand</text>
-              </svg>
-            </div>
-            <div class="mini dark">
-              <div class="t">Results</div>
-              <ul>
-                <li><i style="background:#5f9e8f"></i>System cost ↓</li>
-                <li><i style="background:#e2b93b"></i>Emissions ↓</li>
-                <li><i style="background:#d9ff77"></i>Build &amp; run plan</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div></div>
-
-    <div class="steps" id="steps">
-      <div class="step" data-s="0"><div class="n">01</div><h3>Draw the system as a network of buses.</h3><p>Reduce a whole region to a few <em>buses</em> — points where power is injected or withdrawn. Here, three: a generation-rich North, a South, and a City where demand sits.</p></div>
-      <div class="step" data-s="1"><div class="n">02</div><h3>Attach demand.</h3><p>The City draws power following a daily <em>load profile</em>. Demand is what the whole system exists to serve, so it anchors everything — the panel shows the shape it must meet.</p></div>
-      <div class="step" data-s="2"><div class="n">03</div><h3>Place the resources.</h3><p>Wind and hydro at the North bus; solar and gas at the South; a battery near the City. Each is just a short list of numbers: capacity, cost, and — for wind and solar — an availability profile.</p></div>
-      <div class="step" data-s="3"><div class="n">04</div><h3>Wire the buses together.</h3><p>Transmission corridors link the buses, each with a limited MW rating. Cheap Northern power only helps the City if a line can carry it — so topology shapes what the model can do.</p></div>
-      <div class="step" data-s="4"><div class="n">05</div><h3>Turn the question into a maths problem.</h3><p>Now the crucial step most explainers skip: we write the whole thing as a <em>Linear Program</em> (LP). The unknowns are how much each unit generates and how much flows on each line; the goal is to minimise total cost; the rules — balance, capacity, line limits, storage — are all linear. Because everything is linear, an LP <em>solver</em> can find the exact cheapest solution, fast.</p></div>
-      <div class="step" data-s="5"><div class="n">06</div><h3>Solve for least-cost flow.</h3><p>Hand the LP to the solver and it returns the cheapest feasible dispatch — power flows along the lines, storage charges and discharges — plus the answers: system cost, emissions, and a build-and-run plan. Change a line limit or a fuel price and it all rearranges. That is the point: a model is a place to ask <em>what if</em>.</p><p class="caption">You just built and solved a three-bus energy model.</p></div>
-    </div>
-  </div>
+  <ol class="stepgrid">
+    <li class="stepcard reveal"><div class="n">01</div><h3>Draw a network of buses.</h3><p>Reduce a whole region to a few <em>buses</em> — points where power is injected or withdrawn. Here, three: a generation-rich North, a South, and a City where demand sits.</p>
+      <div class="stepfig"><svg viewBox="0 0 300 120" role="img" aria-label="three buses">
+        <rect x="34" y="42" width="70" height="9" rx="4" fill="#126568"/><text x="34" y="34" fill="#3f5553">A · North</text>
+        <rect x="196" y="42" width="70" height="9" rx="4" fill="#126568"/><text x="196" y="34" fill="#3f5553">B · South</text>
+        <rect x="115" y="96" width="70" height="9" rx="4" fill="#126568"/><text x="115" y="88" fill="#3f5553">C · City</text>
+        <g stroke="#cbd6d2" stroke-width="1.4" fill="none"><path d="M69,51 C92,76 120,88 150,96"/><path d="M231,51 C208,76 180,88 150,96"/><path d="M104,46 L196,46"/></g>
+      </svg></div>
+    </li>
+    <li class="stepcard reveal"><div class="n">02</div><h3>Attach demand.</h3><p>The City draws power on a daily <em>load profile</em>. Demand is what the whole system exists to serve, so it anchors every other decision.</p>
+      <div class="stepfig"><svg viewBox="0 0 300 120" role="img" aria-label="city demand and load curve">
+        <use href="#ic-city" x="16" y="38" width="56" height="56"/><text x="22" y="110" fill="#3f5553">City load</text>
+        <path d="M104,96 L104,20 M104,96 L288,96" stroke="#c3d0cc" fill="none"/>
+        <path d="M104,86 C146,82 162,40 198,36 C234,32 250,66 288,58" fill="none" stroke="#126568" stroke-width="2.4"/>
+      </svg></div>
+    </li>
+    <li class="stepcard reveal"><div class="n">03</div><h3>Place the resources.</h3><p>Wind and hydro at the North bus; solar and gas at the South; a battery near the City. Each is just a short list of numbers: capacity, cost, and — for wind and solar — an availability profile.</p>
+      <div class="stepfig"><svg viewBox="0 0 300 118" role="img" aria-label="resources attached to a bus">
+        <use href="#ic-wind" x="8" y="4" width="48" height="48"/><use href="#ic-solar" x="66" y="4" width="48" height="48"/><use href="#ic-hydro" x="124" y="4" width="48" height="48"/><use href="#ic-gas" x="182" y="4" width="48" height="48"/><use href="#ic-batt" x="244" y="6" width="44" height="44"/>
+        <rect x="40" y="86" width="220" height="9" rx="4" fill="#126568"/>
+        <g stroke="#cbd6d2" stroke-width="1.2"><line x1="32" y1="52" x2="70" y2="86"/><line x1="90" y1="52" x2="112" y2="86"/><line x1="148" y1="52" x2="160" y2="86"/><line x1="206" y1="52" x2="205" y2="86"/><line x1="266" y1="50" x2="238" y2="86"/></g>
+      </svg></div>
+    </li>
+    <li class="stepcard reveal"><div class="n">04</div><h3>Wire the buses together.</h3><p>Transmission corridors link the buses, each with a limited MW rating. Cheap Northern power only helps the City if a line can carry it — so topology shapes what the model can do.</p>
+      <div class="stepfig"><svg viewBox="0 0 300 120" role="img" aria-label="a transmission line between two buses">
+        <circle cx="52" cy="66" r="16" fill="#fff" stroke="#126568" stroke-width="2"/><text x="52" y="71" fill="#126568" text-anchor="middle" font-weight="bold">A</text>
+        <circle cx="248" cy="66" r="16" fill="#fff" stroke="#126568" stroke-width="2"/><text x="248" y="71" fill="#126568" text-anchor="middle" font-weight="bold">C</text>
+        <path d="M68,66 C120,98 180,98 232,66" fill="none" stroke="#4a615e" stroke-width="1.8"/>
+        <path class="flow" d="M68,66 C120,98 180,98 232,66" fill="none" stroke="#d9ff77" stroke-width="3" stroke-linecap="round"/>
+        <use href="#ic-tower" x="135" y="72" width="30" height="30"/>
+        <text x="150" y="42" fill="#7a8a87" text-anchor="middle">500 MW limit</text>
+      </svg></div>
+    </li>
+    <li class="stepcard reveal"><div class="n">05</div><h3>Turn the question into a maths problem.</h3><p>The step most explainers skip: write the whole thing as a <em>Linear Program</em> (LP). The unknowns are how much each unit generates and how much flows on each line; the goal is minimum total cost; the rules are all linear — so an LP <em>solver</em> finds the exact cheapest answer, fast.</p>
+      <div class="stepfig"><div class="lp"><b>minimise</b>  Σ costₘ · genₘ
+<b>s.t.</b>  Σ gen = demand,  genₘ ≤ capₘ,  flowₗ ≤ limitₗ</div></div>
+    </li>
+    <li class="stepcard reveal"><div class="n">06</div><h3>Solve for least-cost flow.</h3><p>Hand the LP to the solver and it returns the cheapest feasible dispatch — power flows, storage charges and discharges — plus the answers: system cost, emissions, and a build-and-run plan. Change a line limit or a fuel price and it all rearranges.</p>
+      <div class="stepfig"><div class="solve-row">
+        <div class="mini"><div class="t">Least-cost dispatch</div><svg viewBox="0 0 120 96" role="img" aria-label="dispatch stack">
+          <rect x="30" y="70" width="34" height="18" fill="#2f7f86"/><rect x="30" y="52" width="34" height="18" fill="#5f9e8f"/><rect x="30" y="40" width="34" height="12" fill="#e2b93b"/><rect x="30" y="30" width="34" height="10" fill="#b7743a"/>
+          <path d="M22,29 L72,29" stroke="#0b2528" stroke-width="1.6" stroke-dasharray="3 3"/><text x="78" y="34" font-size="11" fill="#7a8a87">= demand</text>
+        </svg></div>
+        <div class="mini dark"><div class="t">Results</div><ul><li><i style="background:#5f9e8f"></i>System cost ↓</li><li><i style="background:#e2b93b"></i>Emissions ↓</li><li><i style="background:#d9ff77"></i>Build &amp; run plan</li></ul></div>
+      </div></div>
+    </li>
+  </ol>
 </div></section>
 
 <div class="divider"></div>
@@ -571,26 +500,13 @@
     for(var x=150;x<=884;x+=6){ var h=8+Math.random()*20; s+='<line x1="'+x+'" y1="72" x2="'+x+'" y2="'+(72-h).toFixed(0)+'"/>'; }
     t.innerHTML=s;
   }
-
-  var scene=document.getElementById('scene'); if(!scene) return;
-  var layers=[].slice.call(scene.querySelectorAll('[data-step]'));
-  var bars=[].slice.call(document.querySelectorAll('#detail .stackbar'));
-  var panels=[].slice.call(document.querySelectorAll('#detail .dpanel'));
-  var steps=[].slice.call(document.querySelectorAll('#steps .step'));
-
-  function inList(list,n){ return (' '+list+' ').indexOf(' '+n+' ')>-1; }
-
-  function setStep(n){
-    layers.forEach(function(l){ l.classList.toggle('on',(+l.dataset.step)<=n); });
-    panels.forEach(function(p){ p.classList.toggle('on', inList(p.dataset.d, n)); });
-    bars.forEach(function(b){ b.classList.toggle('on', n===5); });
-    steps.forEach(function(s){ var on=(+s.dataset.s)===n; s.classList.toggle('on',on); s.classList.toggle('dim',!on); });
-  }
-  if(!('IntersectionObserver' in window)){ setStep(5); return; }
-  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting) setStep(+e.target.dataset.s); }); },
-    {rootMargin:'-45% 0px -45% 0px',threshold:0});
-  steps.forEach(function(s){ io.observe(s); });
-  setStep(0);
+  // reveal-on-view (opacity/transform only — no layout coupling, cannot overlap)
+  var rev=[].slice.call(document.querySelectorAll('.reveal'));
+  if(!rev.length || !('IntersectionObserver' in window)) return;
+  document.body.classList.add('reveal-on');
+  var io=new IntersectionObserver(function(es){ es.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }); },
+    {rootMargin:'0px 0px -8% 0px',threshold:0.08});
+  rev.forEach(function(e){ io.observe(e); });
 })();
 </script>
 </body>

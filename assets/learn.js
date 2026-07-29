@@ -1,9 +1,9 @@
-/* Learn tab — scrollytelling driver (scoped to #learn) */
+/* Learn tab — no sticky scrolling. Only a ticks generator + a safe reveal-on-view. */
 (function(){
   var root = document.getElementById('learn');
   if(!root) return;
 
-  // dense hourly ticks for the year-dissection banner
+  // dense hourly ticks for the year-dissection banner (Part C)
   var t = root.querySelector('#ticks');
   if(t){
     var s='';
@@ -11,26 +11,17 @@
     t.innerHTML=s;
   }
 
-  var scene = root.querySelector('#scene');
-  if(!scene) return;
-  var layers = [].slice.call(scene.querySelectorAll('[data-step]'));
-  var bars   = [].slice.call(root.querySelectorAll('#detail .stackbar'));
-  var panels = [].slice.call(root.querySelectorAll('#detail .dpanel'));
-  var steps  = [].slice.call(root.querySelectorAll('#steps .step'));
+  // reveal-on-view: opacity/transform only, so it can never affect layout or overlap.
+  // Marking the root with .reveal-on means no-JS users still see everything.
+  var rev = [].slice.call(root.querySelectorAll('.reveal'));
+  if(!rev.length) return;
+  if(!('IntersectionObserver' in window)){ return; } // leave everything visible
 
-  function inList(list,n){ return (' '+list+' ').indexOf(' '+n+' ') > -1; }
-
-  function setStep(n){
-    layers.forEach(function(l){ l.classList.toggle('on',(+l.dataset.step)<=n); });
-    panels.forEach(function(p){ p.classList.toggle('on', inList(p.dataset.d, n)); });
-    bars.forEach(function(b){ b.classList.toggle('on', n===5); });
-    steps.forEach(function(st){ var on=(+st.dataset.s)===n; st.classList.toggle('on',on); st.classList.toggle('dim',!on); });
-  }
-
-  if(!('IntersectionObserver' in window)){ setStep(5); return; }
-  var io = new IntersectionObserver(function(es){
-    es.forEach(function(e){ if(e.isIntersecting) setStep(+e.target.dataset.s); });
-  }, {rootMargin:'-45% 0px -45% 0px', threshold:0});
-  steps.forEach(function(st){ io.observe(st); });
-  setStep(0);
+  root.classList.add('reveal-on');
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, {rootMargin:'0px 0px -8% 0px', threshold:0.08});
+  rev.forEach(function(el){ io.observe(el); });
 })();
