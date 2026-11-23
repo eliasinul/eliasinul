@@ -11,8 +11,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
-  <link rel="stylesheet" href="assets/style.css">
-  <link rel="stylesheet" href="assets/learn.css">
+  <link rel="stylesheet" href="assets/style.css?v=20261122">
+  <link rel="stylesheet" href="assets/learn.css?v=20261122">
 </head>
 <body>
   <div class="aurora" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -68,9 +68,25 @@
         </div>
       </div>
 
-      <div class="stats">
-        <div><strong>12+</strong><span>years of industry experience</span></div>
-        <div><strong>7</strong><span>lead open-source contributions</span></div>
+      <div class="milestones">
+        <div class="ms ms-years" role="img" aria-label="12+ years of industry experience, since 2012">
+          <p class="ms-figure"><strong class="ms-count" data-to="12">12</strong><sup>+</sup></p>
+          <div>
+            <div class="ms-ticks" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i><i style="--i:7"></i><i style="--i:8"></i><i style="--i:9"></i><i style="--i:10"></i><i style="--i:11"></i><i style="--i:12"></i><i style="--i:13"></i><i style="--i:14"></i></div>
+            <div class="ms-scale" aria-hidden="true"><span>2012</span><span>years in industry</span><span>now</span></div>
+          </div>
+        </div>
+        <a class="ms ms-oss" href="#portfolio" data-tab-link="portfolio" aria-label="7 lead open-source contributions, view portfolio">
+          <p class="ms-figure"><strong class="ms-count" data-to="7">7</strong></p>
+          <div>
+            <div class="ms-nodes" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><i style="--i:5"></i><i style="--i:6"></i></div>
+            <div class="ms-scale" aria-hidden="true"><span>lead open-source models ↗</span></div>
+          </div>
+        </a>
+        <div class="ms ms-meter" hidden>
+          <p class="meter" aria-live="polite"><span class="meter-digits"></span><span class="visually-hidden"> visits</span></p>
+          <div class="ms-scale"><span><i class="live-dot" aria-hidden="true"></i>visits metered</span></div>
+        </div>
       </div>
 
       <div class="focus">
@@ -259,16 +275,16 @@
             </g>
             <path class="flow" d="M150,180 C150,240 200,270 250,300" fill="none" stroke="#c4ef4f" stroke-width="3" stroke-linecap="round"/>
             <path class="flow" d="M410,180 C410,240 360,270 310,300" fill="none" stroke="#c4ef4f" stroke-width="3" stroke-linecap="round" style="animation-delay:.5s"/>
-            <g class="t-tag"><rect x="252" y="146" width="56" height="18" rx="9"/><text x="280" y="159" text-anchor="middle">300 MW</text></g>
-            <g class="t-tag"><rect x="112" y="244" width="56" height="18" rx="9"/><text x="140" y="257" text-anchor="middle">500 MW</text></g>
-            <g class="t-tag"><rect x="392" y="244" width="56" height="18" rx="9"/><text x="420" y="257" text-anchor="middle">400 MW</text></g>
-            <rect x="70"  y="160" width="130" height="20" rx="10" fill="#126568"/><text class="t-bus" x="135" y="174" text-anchor="middle">A · NORTH</text>
-            <rect x="360" y="160" width="130" height="20" rx="10" fill="#126568"/><text class="t-bus" x="425" y="174" text-anchor="middle">B · SOUTH</text>
-            <rect x="215" y="300" width="130" height="20" rx="10" fill="#0b2528"/><text class="t-bus lime" x="280" y="314" text-anchor="middle">C · CITY</text>
+            <g class="t-tag" fill="#126568" font-size="9.5" font-weight="600" letter-spacing=".6" font-family="Inter, system-ui, sans-serif"><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="252" y="146" width="56" height="18" rx="9"/><text x="280" y="159" text-anchor="middle">300 MW</text></g>
+            <g class="t-tag" fill="#126568" font-size="9.5" font-weight="600" letter-spacing=".6" font-family="Inter, system-ui, sans-serif"><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="112" y="244" width="56" height="18" rx="9"/><text x="140" y="257" text-anchor="middle">500 MW</text></g>
+            <g class="t-tag" fill="#126568" font-size="9.5" font-weight="600" letter-spacing=".6" font-family="Inter, system-ui, sans-serif"><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="392" y="244" width="56" height="18" rx="9"/><text x="420" y="257" text-anchor="middle">400 MW</text></g>
+            <rect x="70"  y="160" width="130" height="20" rx="10" fill="#126568"/><text class="t-bus" fill="#ffffff" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="10.5" x="135" y="174" text-anchor="middle">A · NORTH</text>
+            <rect x="360" y="160" width="130" height="20" rx="10" fill="#126568"/><text class="t-bus" fill="#ffffff" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="10.5" x="425" y="174" text-anchor="middle">B · SOUTH</text>
+            <rect x="215" y="300" width="130" height="20" rx="10" fill="#0b2528"/><text class="t-bus lime" fill="#d9ff77" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="10.5" x="280" y="314" text-anchor="middle">C · CITY</text>
             <use href="#ic-city" x="226" y="332" width="44" height="44"/>
             <use href="#ic-batt" x="290" y="334" width="40" height="40"/>
-            <text class="t-lbl" x="248" y="392" text-anchor="middle">DEMAND</text>
-            <text class="t-lbl stor" x="310" y="392" text-anchor="middle">STORAGE</text>
+            <text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="248" y="392" text-anchor="middle">DEMAND</text>
+            <text class="t-lbl stor" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" fill="#7a5cc0" x="310" y="392" text-anchor="middle">STORAGE</text>
           </svg>
           <figcaption>The finished model. Below, how it's built — one step at a time.</figcaption>
         </figure>
@@ -277,28 +293,28 @@
           <li class="stepcard reveal"><div class="n">01</div><h3>Draw a network of buses.</h3><p>Reduce a whole region to a few <em>buses</em> — points where power is injected or withdrawn. Here, three: a generation-rich North, a South, and a City where demand sits.</p>
             <div class="stepfig"><svg viewBox="0 0 300 120" role="img" aria-label="three buses">
               <g stroke="#9fb3ae" stroke-width="1.4" fill="none"><path d="M120,32 H180"/><path d="M70,40 C70,66 100,80 130,88"/><path d="M230,40 C230,66 200,80 170,88"/></g>
-              <rect x="20" y="24" width="100" height="16" rx="8" fill="#126568"/><text class="t-bus sm" x="70" y="35.5" text-anchor="middle">A · NORTH</text>
-              <rect x="180" y="24" width="100" height="16" rx="8" fill="#126568"/><text class="t-bus sm" x="230" y="35.5" text-anchor="middle">B · SOUTH</text>
-              <rect x="100" y="88" width="100" height="16" rx="8" fill="#0b2528"/><text class="t-bus sm lime" x="150" y="99.5" text-anchor="middle">C · CITY</text>
+              <rect x="20" y="24" width="100" height="16" rx="8" fill="#126568"/><text class="t-bus sm" fill="#ffffff" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="8.5" x="70" y="35.5" text-anchor="middle">A · NORTH</text>
+              <rect x="180" y="24" width="100" height="16" rx="8" fill="#126568"/><text class="t-bus sm" fill="#ffffff" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="8.5" x="230" y="35.5" text-anchor="middle">B · SOUTH</text>
+              <rect x="100" y="88" width="100" height="16" rx="8" fill="#0b2528"/><text class="t-bus sm lime" fill="#d9ff77" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="8.5" x="150" y="99.5" text-anchor="middle">C · CITY</text>
             </svg></div>
           </li>
           <li class="stepcard reveal"><div class="n">02</div><h3>Attach demand.</h3><p>The City draws power on a daily <em>load profile</em>. Demand is what the whole system exists to serve, so it anchors every other decision.</p>
             <div class="stepfig"><svg viewBox="0 0 300 120" role="img" aria-label="city demand and load curve">
-              <use href="#ic-city" x="10" y="30" width="60" height="60"/><text class="t-lbl" x="40" y="106" text-anchor="middle">CITY LOAD</text>
+              <use href="#ic-city" x="10" y="30" width="60" height="60"/><text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="40" y="106" text-anchor="middle">CITY LOAD</text>
               <g stroke="#e1e8e5" stroke-width="1"><path d="M104,30 H288 M104,52 H288 M104,74 H288"/></g>
               <path d="M104,96 H288" stroke="#9fb3ae"/>
               <path d="M104,86 C146,82 162,40 198,36 C234,32 250,66 288,58 V96 H104 Z" fill="#126568" opacity=".1"/>
               <path d="M104,86 C146,82 162,40 198,36 C234,32 250,66 288,58" fill="none" stroke="#126568" stroke-width="2.2"/>
-              <circle cx="198" cy="36" r="3.2" fill="#fff" stroke="#126568" stroke-width="1.6"/><text class="t-lbl" x="198" y="24" text-anchor="middle">PEAK</text>
-              <g class="t-axis"><text x="104" y="110">00h</text><text x="196" y="110" text-anchor="middle">12h</text><text x="288" y="110" text-anchor="end">24h</text></g>
+              <circle cx="198" cy="36" r="3.2" fill="#fff" stroke="#126568" stroke-width="1.6"/><text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="198" y="24" text-anchor="middle">PEAK</text>
+              <g class="t-axis" fill="#7a8a87" font-size="11" font-weight="500" font-family="Inter, system-ui, sans-serif"><text x="104" y="110">00h</text><text x="196" y="110" text-anchor="middle">12h</text><text x="288" y="110" text-anchor="end">24h</text></g>
             </svg></div>
           </li>
           <li class="stepcard reveal"><div class="n">03</div><h3>Place the resources.</h3><p>Wind and hydro at the North bus; solar and gas at the South; a battery near the City. Each is just a short list of numbers: capacity, cost, and — for wind and solar — an availability profile.</p>
             <div class="stepfig"><svg viewBox="0 0 300 118" role="img" aria-label="resources attached to a bus">
               <use href="#ic-wind" x="12" y="4" width="40" height="40"/><use href="#ic-solar" x="72" y="4" width="40" height="40"/><use href="#ic-hydro" x="132" y="4" width="40" height="40"/><use href="#ic-gas" x="192" y="4" width="40" height="40"/><use href="#ic-batt" x="250" y="4" width="40" height="40"/>
-              <g class="t-lbl"><text x="32" y="60" text-anchor="middle">WIND</text><text x="92" y="60" text-anchor="middle">SOLAR</text><text x="152" y="60" text-anchor="middle">HYDRO</text><text x="212" y="60" text-anchor="middle">GAS</text><text class="stor" x="270" y="60" text-anchor="middle">STORAGE</text></g>
+              <g class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif"><text x="32" y="60" text-anchor="middle">WIND</text><text x="92" y="60" text-anchor="middle">SOLAR</text><text x="152" y="60" text-anchor="middle">HYDRO</text><text x="212" y="60" text-anchor="middle">GAS</text><text class="stor" fill="#7a5cc0" x="270" y="60" text-anchor="middle">STORAGE</text></g>
               <g stroke="#9fb3ae" stroke-width="1.2"><path d="M32,68 V92 M92,68 V92 M152,68 V92 M212,68 V92 M270,68 V92"/></g>
-              <rect x="12" y="92" width="278" height="14" rx="7" fill="#126568"/><text class="t-bus sm" x="151" y="102.5" text-anchor="middle">BUS</text>
+              <rect x="12" y="92" width="278" height="14" rx="7" fill="#126568"/><text class="t-bus sm" fill="#ffffff" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="8.5" x="151" y="102.5" text-anchor="middle">BUS</text>
             </svg></div>
           </li>
           <li class="stepcard reveal"><div class="n">04</div><h3>Wire the buses together.</h3><p>Transmission corridors link the buses, each with a limited MW rating. Cheap Northern power only helps the City if a line can carry it — so topology shapes what the model can do.</p>
@@ -306,9 +322,9 @@
               <path d="M68,66 C120,98 180,98 232,66" fill="none" stroke="#4a615e" stroke-width="1.8"/>
               <path class="flow" d="M68,66 C120,98 180,98 232,66" fill="none" stroke="#c4ef4f" stroke-width="3" stroke-linecap="round"/>
               <use href="#ic-tower" x="133" y="52" width="34" height="34"/>
-              <circle cx="52" cy="66" r="16" fill="#126568"/><text class="t-bus" x="52" y="70.5" text-anchor="middle">A</text>
-              <circle cx="248" cy="66" r="16" fill="#0b2528"/><text class="t-bus lime" x="248" y="70.5" text-anchor="middle">C</text>
-              <g class="t-tag"><rect x="106" y="20" width="88" height="18" rx="9"/><text x="150" y="33" text-anchor="middle">LIMIT 500 MW</text></g>
+              <circle cx="52" cy="66" r="16" fill="#126568"/><text class="t-bus" fill="#ffffff" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="10.5" x="52" y="70.5" text-anchor="middle">A</text>
+              <circle cx="248" cy="66" r="16" fill="#0b2528"/><text class="t-bus lime" fill="#d9ff77" font-weight="700" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" font-size="10.5" x="248" y="70.5" text-anchor="middle">C</text>
+              <g class="t-tag" fill="#126568" font-size="9.5" font-weight="600" letter-spacing=".6" font-family="Inter, system-ui, sans-serif"><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="106" y="20" width="88" height="18" rx="9"/><text x="150" y="33" text-anchor="middle">LIMIT 500 MW</text></g>
             </svg></div>
           </li>
           <li class="stepcard reveal"><div class="n">05</div><h3>Turn the question into a maths problem.</h3><p>The step most explainers skip: write the whole thing as a <em>Linear Program</em> (LP). The unknowns are how much each unit generates and how much flows on each line; the goal is minimum total cost; the rules are all linear — so an LP <em>solver</em> finds the exact cheapest answer, fast.</p>
@@ -319,7 +335,7 @@
             <div class="stepfig"><div class="solve-row">
               <div class="mini"><div class="t">Least-cost dispatch</div><svg viewBox="0 0 150 96" role="img" aria-label="dispatch stack">
                 <rect x="30" y="70" width="34" height="18" fill="#2f7f86"/><rect x="30" y="52" width="34" height="18" fill="#5f9e8f"/><rect x="30" y="40" width="34" height="12" fill="#e2b93b"/><rect x="30" y="30" width="34" height="10" fill="#b7743a"/>
-                <path d="M22,29 H74" stroke="#0b2528" stroke-width="1.4" stroke-dasharray="3 3"/><text class="t-lbl" x="80" y="33">DEMAND</text>
+                <path d="M22,29 H74" stroke="#0b2528" stroke-width="1.4" stroke-dasharray="3 3"/><text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="80" y="33">DEMAND</text>
                 <path d="M22,88 H74" stroke="#9fb3ae"/>
               </svg></div>
               <div class="mini dark"><div class="t">Results</div><ul><li><i style="background:#5f9e8f"></i>System cost ↓</li><li><i style="background:#e2b93b"></i>Emissions ↓</li><li><i style="background:#d9ff77"></i>Build &amp; run plan</li></ul></div>
@@ -352,7 +368,7 @@
               <use href="#ic-tower" x="294" y="190" width="42" height="42"/>
               <use href="#ic-solar" x="332" y="168" width="64" height="64"/>
               <use href="#ic-gas"   x="390" y="164" width="66" height="66"/>
-              <g class="t-lbl"><text x="63" y="256" text-anchor="middle">HYDRO</text><text x="142" y="256" text-anchor="middle">WIND</text><text x="248" y="256" text-anchor="middle">CITY</text><text x="364" y="256" text-anchor="middle">SOLAR</text><text x="423" y="256" text-anchor="middle">GAS</text></g>
+              <g class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif"><text x="63" y="256" text-anchor="middle">HYDRO</text><text x="142" y="256" text-anchor="middle">WIND</text><text x="248" y="256" text-anchor="middle">CITY</text><text x="364" y="256" text-anchor="middle">SOLAR</text><text x="423" y="256" text-anchor="middle">GAS</text></g>
             </svg>
             <p>Turbines, a dam, panels, a plant, wires, a city — messy, physical, continuous.</p>
           </div>
@@ -362,14 +378,14 @@
               <g stroke="#4a615e" stroke-width="1.8" fill="none">
                 <line x1="100" y1="110" x2="230" y2="210"/><line x1="360" y1="110" x2="230" y2="210"/><line x1="100" y1="110" x2="360" y2="110"/>
               </g>
-              <g class="t-tag"><rect x="122" y="152" width="56" height="18" rx="9"/><text x="150" y="165" text-anchor="middle">500 MW</text><rect x="282" y="152" width="56" height="18" rx="9"/><text x="310" y="165" text-anchor="middle">400 MW</text><rect x="202" y="101" width="56" height="18" rx="9"/><text x="230" y="114" text-anchor="middle">300 MW</text></g>
+              <g class="t-tag" fill="#126568" font-size="9.5" font-weight="600" letter-spacing=".6" font-family="Inter, system-ui, sans-serif"><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="122" y="152" width="56" height="18" rx="9"/><text x="150" y="165" text-anchor="middle">500 MW</text><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="282" y="152" width="56" height="18" rx="9"/><text x="310" y="165" text-anchor="middle">400 MW</text><rect fill="#ffffff" stroke="#126568" stroke-opacity=".3" x="202" y="101" width="56" height="18" rx="9"/><text x="230" y="114" text-anchor="middle">300 MW</text></g>
               <use href="#ic-wind"  x="56"  y="34" width="40" height="40"/><use href="#ic-hydro" x="98"  y="32" width="40" height="40"/>
               <circle cx="100" cy="110" r="25" fill="#126568"/><text x="100" y="116" font-size="16" fill="#fff" text-anchor="middle" font-weight="600">A</text>
               <use href="#ic-solar" x="318" y="34" width="40" height="40"/><use href="#ic-gas" x="360" y="32" width="40" height="40"/>
               <circle cx="360" cy="110" r="25" fill="#126568"/><text x="360" y="116" font-size="16" fill="#fff" text-anchor="middle" font-weight="600">B</text>
               <circle cx="230" cy="210" r="25" fill="#0b2528"/><text x="230" y="216" font-size="16" fill="#d9ff77" text-anchor="middle" font-weight="600">C</text>
               <use href="#ic-city" x="240" y="212" width="42" height="42"/><use href="#ic-batt" x="180" y="218" width="36" height="36"/>
-              <text class="t-lbl" x="230" y="272" text-anchor="middle">LOAD + STORAGE</text>
+              <text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="230" y="272" text-anchor="middle">LOAD + STORAGE</text>
             </svg>
             <p>Three buses, three edges, a handful of numbers. Solvable, testable, reproducible.</p>
           </div>
@@ -397,11 +413,11 @@
             <h3>What should we <em>build</em>?</h3>
             <p>Plans investment over decades: which technologies to build, when, and when to retire — minimising total investment plus operating cost across the whole horizon.</p>
             <svg class="cmp-svg" viewBox="0 0 380 176" role="img" aria-label="New capacity added across years, 2035 highlighted">
-              <text class="t-lbl" x="34" y="12">INSTALLED CAPACITY</text>
+              <text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="34" y="12">INSTALLED CAPACITY</text>
               <g stroke="#e1e8e5" stroke-width="1"><path d="M34,40 H360 M34,72 H360 M34,104 H360"/></g>
               <line x1="34" y1="140" x2="360" y2="140" stroke="#9fb3ae"/>
               <rect x="189" y="24" width="44" height="116" fill="rgba(18,101,104,.07)" stroke="#126568" stroke-width="1" stroke-dasharray="3 3" rx="4"/>
-              <g class="t-tag dark"><rect x="166" y="0" width="90" height="17" rx="8.5"/><text x="211" y="12" text-anchor="middle">PICK ONE YEAR</text></g>
+              <g class="t-tag dark" fill="#ffffff" font-size="9.5" font-weight="600" letter-spacing=".6" font-family="Inter, system-ui, sans-serif"><rect fill="#126568" x="166" y="0" width="90" height="17" rx="8.5"/><text x="211" y="12" text-anchor="middle">PICK ONE YEAR</text></g>
               <g>
                 <rect x="44"  y="112" width="34" height="28" fill="#2f7f86"/>
                 <rect x="94"  y="98"  width="34" height="42" fill="#2f7f86"/><rect x="94" y="86" width="34" height="12" fill="#5f9e8f"/>
@@ -410,7 +426,7 @@
                 <rect x="256" y="86"  width="34" height="54" fill="#2f7f86"/><rect x="256" y="54" width="34" height="32" fill="#5f9e8f"/><rect x="256" y="40" width="34" height="14" fill="#e2b93b"/><rect x="256" y="30" width="34" height="10" fill="#7a5cc0"/>
                 <rect x="316" y="82"  width="34" height="58" fill="#2f7f86"/><rect x="316" y="40" width="34" height="42" fill="#5f9e8f"/><rect x="316" y="24" width="34" height="16" fill="#e2b93b"/><rect x="316" y="14" width="34" height="10" fill="#7a5cc0"/>
               </g>
-              <g class="t-axis"><text x="61" y="156" text-anchor="middle">2025</text><text x="111" y="156" text-anchor="middle">2030</text><text x="161" y="156" text-anchor="middle">2033</text><text class="hl" x="211" y="156" text-anchor="middle">2035</text><text x="273" y="156" text-anchor="middle">2040</text><text x="333" y="156" text-anchor="middle">2050</text></g>
+              <g class="t-axis" fill="#7a8a87" font-size="11" font-weight="500" font-family="Inter, system-ui, sans-serif"><text x="61" y="156" text-anchor="middle">2025</text><text x="111" y="156" text-anchor="middle">2030</text><text x="161" y="156" text-anchor="middle">2033</text><text class="hl" fill="#126568" font-weight="700" x="211" y="156" text-anchor="middle">2035</text><text x="273" y="156" text-anchor="middle">2040</text><text x="333" y="156" text-anchor="middle">2050</text></g>
             </svg>
             <div class="legendrow"><span><i class="sw" style="background:#2f7f86"></i>hydro</span><span><i class="sw" style="background:#5f9e8f"></i>wind</span><span><i class="sw" style="background:#e2b93b"></i>solar</span><span><i class="sw" style="background:#7a5cc0"></i>storage</span></div>
           </div>
@@ -419,11 +435,11 @@
             <h3>How should we <em>run</em> it?</h3>
             <p>Takes the fleet as fixed and decides, hour by hour, which plants run — respecting start-up limits, ramp rates, reserves and storage cycling.</p>
             <svg class="cmp-svg" viewBox="0 0 380 176" role="img" aria-label="Hourly dispatch across one representative day of a year">
-              <text class="t-lbl" x="34" y="12">GENERATION</text>
-              <text class="t-lbl gas" x="360" y="12" text-anchor="end">1 DAY OF 8,760 HOURS</text>
+              <text class="t-lbl" fill="#5d726f" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" x="34" y="12">GENERATION</text>
+              <text class="t-lbl gas" font-size="10" font-weight="600" letter-spacing="1.2" font-family="Inter, system-ui, sans-serif" fill="#b7743a" x="360" y="12" text-anchor="end">1 DAY OF 8,760 HOURS</text>
               <g stroke="#e1e8e5" stroke-width="1"><path d="M34,40 H360 M34,72 H360 M34,104 H360"/></g>
               <line x1="34" y1="140" x2="360" y2="140" stroke="#c3d0cc"/>
-              <g class="t-axis"><text x="40" y="156" text-anchor="middle">00:00</text><text x="190" y="156" text-anchor="middle">12:00</text><text x="340" y="156" text-anchor="middle">24:00</text></g>
+              <g class="t-axis" fill="#7a8a87" font-size="11" font-weight="500" font-family="Inter, system-ui, sans-serif"><text x="40" y="156" text-anchor="middle">00:00</text><text x="190" y="156" text-anchor="middle">12:00</text><text x="340" y="156" text-anchor="middle">24:00</text></g>
               <path d="M40,140 L40,120 L100,116 L160,104 L220,108 L280,118 L340,122 L340,140 Z" fill="#2f7f86"/>
               <path d="M40,120 L100,116 L160,104 L220,108 L280,118 L340,122 L340,112 L280,104 L220,86 L160,80 L100,96 L40,104 Z" fill="#5f9e8f" opacity=".9"/>
               <path d="M40,104 L100,96 L160,80 L220,86 L280,104 L340,112 L340,96 L280,88 L220,58 L160,52 L100,80 L40,96 Z" fill="#e2b93b" opacity=".85"/>
@@ -619,7 +635,7 @@
     <strong>Models for a resilient, low-carbon future.</strong>
     <a href="mailto:elias_islam@sfu.ca">elias_islam@sfu.ca</a>
   </footer>
-  <script src="assets/script.js"></script>
-  <script src="assets/learn.js"></script>
+  <script src="assets/script.js?v=20261122"></script>
+  <script src="assets/learn.js?v=20261122"></script>
 </body>
 </html>

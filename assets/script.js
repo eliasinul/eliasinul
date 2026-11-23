@@ -84,3 +84,49 @@ if (window.matchMedia("(hover: hover) and (pointer: fine)").matches && !reducedM
     });
   });
 }
+
+// Milestones: count the figures up whenever the Profile tab is shown
+function playMilestones() {
+  document.querySelectorAll(".ms-count").forEach((el) => {
+    const to = Number(el.dataset.to);
+    if (reducedMotion.matches) { el.textContent = to; return; }
+    const start = performance.now();
+    const duration = 1100;
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / duration);
+      el.textContent = Math.round(to * (1 - Math.pow(1 - t, 3)));
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+}
+window.addEventListener("hashchange", () => { if ((location.hash.slice(1) || "profile") === "profile") playMilestones(); });
+navLinks.forEach((link) => link.addEventListener("click", () => { if (link.dataset.tabLink === "profile") playMilestones(); }));
+if ((location.hash.slice(1) || "profile") === "profile") playMilestones();
+
+// Visit meter: counts one visit per browser session on the live site only
+(function visitMeter() {
+  const box = document.querySelector(".ms-meter");
+  const digitsEl = box?.querySelector(".meter-digits");
+  if (!box || !digitsEl) return;
+  const live = /(^|\.)eliasinul\.com$/.test(location.hostname);
+  let counted = false;
+  try { counted = sessionStorage.getItem("visit-counted") === "1"; } catch (e) {}
+  const action = live && !counted ? "hit" : "get";
+  fetch(`https://abacus.jasoncameron.dev/${action}/eliasinul-com/visits`)
+    .then((r) => (r.ok ? r.json() : Promise.reject(r.status)))
+    .then(({ value }) => {
+      if (typeof value !== "number") return;
+      if (action === "hit") { try { sessionStorage.setItem("visit-counted", "1"); } catch (e) {} }
+      const text = String(value).padStart(5, "0");
+      const strip = Array.from({ length: 10 }, (_, n) => `<b>${n}</b>`).join("");
+      digitsEl.innerHTML = [...text].map(() => `<span class="dg"><span>${strip}</span></span>`).join("");
+      box.hidden = false;
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        digitsEl.querySelectorAll(".dg > span").forEach((s, k) => {
+          s.style.transform = `translateY(-${Number(text[k]) * 22}px)`;
+        });
+      }));
+    })
+    .catch(() => {}); // meter simply stays hidden if the service is unreachable
+})();
