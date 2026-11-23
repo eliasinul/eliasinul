@@ -283,3 +283,31 @@ nav.has-pill a.active:after{display:none}
   .cv-layout aside{padding:22px}
 }
 @media(prefers-reduced-motion:reduce){.aurora i,.portrait-card>.portrait-ring{animation:none}.nav-pill{transition:none}}
+
+/* Compact stat chips — smaller, still noticeable */
+.stats{display:inline-grid;grid-template-columns:repeat(2,auto);width:auto;max-width:100%;margin-top:8px}
+.stats div{display:flex;align-items:center;gap:12px;padding:14px 24px}
+.stats strong{font-size:30px;line-height:1}
+.stats span{max-width:120px;font-size:11px;line-height:1.35;letter-spacing:.02em}
+
+/* Calmer section headings (hero headline stays large) */
+.section-heading h1{font-size:clamp(34px,4.2vw,56px);line-height:1.04;margin:14px 0 18px}
+.section-heading{margin-bottom:48px}
+
+/* Organisation monogram (no logo file) + link */
+.org-mono{display:grid;place-items:center;width:20px;height:20px;border-radius:5px;background:var(--ink);color:var(--lime);font:700 11px var(--font)}
+.org-link{color:inherit;text-decoration:none;border-bottom:1px solid rgba(18,101,104,.35)}.org-link:hover{color:var(--teal)}
+
+/* Highlights — "Publication" tag on journal news */
+.pub-tag{display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;padding:5px 11px 5px 9px;border-radius:999px;background:var(--ink);color:var(--lime);font:700 10px var(--font);letter-spacing:.14em;text-transform:uppercase;box-shadow:0 6px 16px -6px rgba(11,37,40,.5)}
+.pub-tag svg{width:13px;height:13px}
+.now-paper:not(.now-book){box-shadow:var(--glass-shadow),inset 4px 0 0 var(--teal)}
+
+@media(max-width:600px){
+  .stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%}
+  .stats div{flex-direction:column;align-items:flex-start;gap:6px;padding:14px}
+  .stats strong{font-size:24px}
+  .section-heading h1{font-size:clamp(30px,9vw,38px)}
+}
+.section-heading h1{font-size:clamp(32px,3.6vw,48px)}
+@media(max-width:600px){.stats div:last-child{border-right:0}.section-heading h1{font-size:clamp(28px,8.5vw,36px)}}

@@ -121,3 +121,20 @@
 #learn.reveal-on .reveal.in{opacity:1;transform:none}
 @media(max-width:760px){#learn .stepgrid{grid-template-columns:1fr}#learn .netfig svg{max-height:none}}
 @media(prefers-reduced-motion:reduce){#learn.reveal-on .reveal{opacity:1;transform:none;transition:none}}
+
+/* ===== Graphics polish — one label system for every diagram ===== */
+#learn .lsec svg text.t-lbl,#learn .lsec svg .t-lbl text{font:600 10px var(--font);letter-spacing:.12em;fill:#5d726f}
+#learn .lsec svg text.t-axis,#learn .lsec svg .t-axis text{font:500 11px var(--font);fill:#7a8a87;font-variant-numeric:tabular-nums}
+#learn .lsec svg .t-axis text.hl{fill:#126568;font-weight:700}
+#learn .lsec svg text.t-bus{font:700 10.5px var(--font);letter-spacing:.12em;fill:#fff}
+#learn .lsec svg text.t-bus.sm{font-size:8.5px}
+#learn .lsec svg text.lime{fill:#d9ff77}
+#learn .lsec svg text.stor{fill:#7a5cc0}
+#learn .lsec svg text.gas{fill:#b7743a}
+#learn .lsec svg .t-tag rect{fill:#fff;stroke:rgba(18,101,104,.28)}
+#learn .lsec svg .t-tag text{font:600 9.5px var(--font);letter-spacing:.06em;fill:#126568}
+#learn .lsec svg .t-tag.dark rect{fill:#126568;stroke:none}
+#learn .lsec svg .t-tag.dark text{fill:#fff}
+#learn .stepcard .n{font:600 13px var(--font);letter-spacing:.14em;color:var(--teal);margin-bottom:10px}
+#learn .netfig{background:linear-gradient(160deg,#fff,#f1f6f3)}
+#learn .mcard svg{border-radius:10px}
