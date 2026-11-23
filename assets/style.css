@@ -191,3 +191,95 @@ body{-webkit-overflow-scrolling:touch;text-rendering:optimizeLegibility;-webkit-
 /* Avoid double-animating a tab that is also cross-faded by the View Transitions API */
 @supports (view-transition-name:a){.tab.active{animation:none}}
 .publication-item a.pub-site{display:inline-block;margin-left:8px;padding:3px 9px;border:1px solid rgba(18,101,104,.3);border-radius:999px;background:rgba(18,101,104,.1);font-weight:600}.publication-item a.pub-site:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+/* ==========================================================================
+   Glass refresh — one shared glass recipe, soft aurora backdrop, floating nav
+   ========================================================================== */
+:root{
+  --glass-bg:rgba(255,255,255,.42);
+  --glass-bg-strong:rgba(255,255,255,.68);
+  --glass-border:rgba(255,255,255,.7);
+  --glass-edge:rgba(18,101,104,.12);
+  --glass-blur:blur(18px) saturate(140%);
+  --glass-shadow:inset 0 1px 0 rgba(255,255,255,.75),0 0 0 1px var(--glass-edge),0 18px 44px -22px rgba(11,37,40,.28);
+  --radius:18px;
+  --font:"Inter",system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+}
+body{font-family:var(--font);background:var(--paper)}
+.education h3 span,.current-position.personal strong{font-family:var(--font)}
+
+/* Backdrop: the illustration fades in from the right, three soft colour fields drift behind the glass */
+.aurora{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none}
+.aurora:before{content:"";position:absolute;inset:0;background:url("../resources/landing-bg.png") center top/cover no-repeat;opacity:.42;-webkit-mask-image:linear-gradient(90deg,transparent 20%,#000 90%);mask-image:linear-gradient(90deg,transparent 20%,#000 90%)}
+.aurora i{position:absolute;border-radius:50%;opacity:.55;will-change:transform}
+.aurora i:nth-child(1){width:62vmax;height:62vmax;left:-18vmax;top:-22vmax;background:radial-gradient(circle,rgba(18,101,104,.34),transparent 65%);animation:drift-a 38s ease-in-out infinite alternate}
+.aurora i:nth-child(2){width:48vmax;height:48vmax;right:-12vmax;top:18vh;background:radial-gradient(circle,rgba(217,255,119,.55),transparent 62%);animation:drift-b 46s ease-in-out infinite alternate}
+.aurora i:nth-child(3){width:56vmax;height:56vmax;left:22vw;bottom:-30vmax;background:radial-gradient(circle,rgba(95,158,143,.32),transparent 65%);animation:drift-a 52s ease-in-out infinite alternate-reverse}
+@keyframes drift-a{to{transform:translate(8vmax,6vmax) scale(1.08)}}
+@keyframes drift-b{to{transform:translate(-7vmax,9vmax) scale(.94)}}
+.tab,#profile{background:none}
+
+/* Shared glass surfaces */
+.site-header,.portrait-card>.current-role,.stats,.credentials,.education article,.projects>a,
+.now-models,.now-paper,.now-card,.badge-links>a,.now-model-grid>a,.cv-layout aside,.button:not(.primary),.email-link{
+  background:var(--glass-bg);-webkit-backdrop-filter:var(--glass-blur);backdrop-filter:var(--glass-blur);
+  border:1px solid var(--glass-border);box-shadow:var(--glass-shadow)}
+.stats,.credentials,.education article,.projects>a,.now-models,.now-paper,.now-card,.cv-layout aside{border-radius:var(--radius)}
+.badge-links>a,.now-model-grid>a{border-radius:14px}
+.tags span,.training-note span{background:rgba(255,255,255,.5);border:1px solid var(--glass-border);box-shadow:0 0 0 1px var(--glass-edge)}
+
+/* Floating glass navigation capsule */
+.site-header{height:64px;width:min(1240px,calc(100% - 32px));margin:14px auto 0;top:14px;padding:0 10px 0 24px;border-radius:999px;gap:16px}
+.site-header nav{border:0;background:rgba(11,37,40,.04);box-shadow:none}
+.site-header nav:before,.site-header nav:after{display:none}
+.site-header nav a{z-index:1}
+.nav-pill{position:absolute;top:3px;bottom:3px;left:0;width:0;border-radius:20px;background:var(--ink);box-shadow:0 6px 18px -6px rgba(11,37,40,.55),inset 0 1px 0 rgba(255,255,255,.12);opacity:0;transition:transform .45s cubic-bezier(.3,.8,.25,1),width .45s cubic-bezier(.3,.8,.25,1),opacity .2s}
+nav.has-pill .nav-pill{opacity:1}
+nav.has-pill a.active{background:transparent;box-shadow:none}
+nav.has-pill a.active:after{display:none}
+.email-link{padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:500;white-space:nowrap}
+.email-link:hover{background:var(--glass-bg-strong)}
+.tab{min-height:calc(100vh - 92px)}
+
+/* Buttons: pills */
+.button{border-radius:999px;font-weight:500;transition:transform .2s ease,background .2s ease,box-shadow .2s ease}
+.button:not(.primary){border-color:var(--glass-border)}
+.button:hover{transform:translateY(-2px)}
+.button.primary{box-shadow:0 10px 24px -10px rgba(11,37,40,.6)}
+
+/* Portrait: one still glass ring with a single orbiting lime dot */
+.portrait-card>.portrait-ring{position:absolute;top:-18px;left:50%;width:260px;height:260px;margin:0 0 0 -130px;padding:0;border-radius:50%;border:1px solid rgba(255,255,255,.85);box-shadow:0 0 0 1px var(--glass-edge),inset 0 0 40px rgba(255,255,255,.35);background:rgba(255,255,255,.16);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);pointer-events:none;animation:orbit-spin 40s linear infinite}
+.portrait-ring:before{content:"";position:absolute;top:28px;left:34px;width:9px;height:9px;border-radius:50%;background:var(--lime);border:1px solid var(--teal);box-shadow:0 0 10px rgba(217,255,119,.9)}
+.portrait-card>img{position:relative;outline:0;border-color:rgba(255,255,255,.9)}
+.portrait-card>.current-role{margin-top:34px;padding:18px 20px;border-radius:16px;border-top:1px solid var(--glass-border)}
+.current-role:before{display:none}
+
+/* Stats as glass readouts */
+.stats{margin-top:20px;overflow:hidden;border-color:var(--glass-border)}
+.stats strong{font-variant-numeric:tabular-nums}
+
+/* Cards */
+.projects{gap:14px;background:none;border:0}
+.projects>a{transition:transform .3s ease,background .3s ease,box-shadow .3s ease}
+.projects>a:hover{background:var(--glass-bg-strong);color:var(--ink);transform:translateY(-4px)}
+.projects>a:hover p{color:#60716f}.projects>a:hover small,.projects>a:hover span{color:var(--teal)}
+.projects>a:hover img{background:none}
+.education article.phd{background:rgba(226,240,233,.6);box-shadow:var(--glass-shadow),inset 4px 0 0 var(--teal)}
+.cv-layout aside{padding:26px}
+.now-card{overflow:hidden}
+.now-model-grid>a:hover,.badge-links>a:hover{background:var(--glass-bg-strong)}
+
+/* Cursor-following light (added by script.js on hover-capable devices) */
+.sheen{position:relative;isolation:isolate}
+.sheen:after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:-1;opacity:0;transition:opacity .35s ease;
+  background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.7),rgba(217,255,119,.12) 30%,transparent 60%)}
+.sheen:hover:after{opacity:1}
+
+@media(max-width:850px){.site-header{padding:0 8px 0 18px}}
+@media(max-width:600px){
+  .site-header{width:calc(100% - 16px);margin-top:8px;top:8px;border-radius:22px;padding:8px 8px 8px 14px}
+  .tab{min-height:calc(100svh - 82px)}
+  .portrait-card>.portrait-ring{width:222px;height:222px;margin-left:-111px;top:-16px}
+  .cv-layout aside{padding:22px}
+}
+@media(prefers-reduced-motion:reduce){.aurora i,.portrait-card>.portrait-ring{animation:none}.nav-pill{transition:none}}
